@@ -1,15 +1,16 @@
+//style
+import './style.scss';
 import 'bootstrap/dist/css/bootstrap.css';
+//React
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import App from './App';
-
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-const rootElement = document.getElementById('root');
+//Component
+import App from './components/app/app';
 
 ReactDOM.render(
-  <BrowserRouter basename={baseUrl}>
+  <BrowserRouter basename={document.getElementsByTagName('base')[0].getAttribute('href')}>
     <App />
   </BrowserRouter>,
-  rootElement);
+  document.getElementById('root'));
 
