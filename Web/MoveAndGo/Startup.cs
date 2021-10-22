@@ -39,7 +39,7 @@ namespace MoveAndGo
             {
                 options.Cookie.Name = "MoveAndGoAuth";
                 options.Cookie.HttpOnly = true;
-                options.LoginPath = "/Account/AccessError";
+                options.LoginPath = "/api/Account/AccessError";
                 options.SlidingExpiration = true;
             });
 
