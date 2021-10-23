@@ -26,21 +26,21 @@ namespace MoveAndGo.Controllers
             _env = env;
         }
 
-        //let data = { email: "serhii.cherevan@nure.ua", fullname: "Sergey Cherevan", nickname: "Ageris", password: "12345", confirmpassword: "12345" }
-        //let resp = await fetch("/api/account/registration", {
-        //  method: 'POST',
-        //  headers: { 'Content-Type': 'application/json' },
-        //  body: JSON.stringify(data)
-        //} )
-        //await resp.json()
+        /*let data = { email: "serhii.cherevan@nure.ua", fullname: "Sergey Cherevan", nickname: "Ageris", password: "12345", confirmpassword: "12345" }
+        let resp = await fetch("/api/account/registration", {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        } )*/
+       //await resp.json()
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Registration(RegistrationViewModel model)
         {
-            if (User.Identity.IsAuthenticated)
+            /*if (User.Identity.IsAuthenticated)
             {
                 return StatusCode(403, "You are not anonymous");
-            }
+            }*/
             
             List<string> errors = new List<string>(ModelState.ErrorCount);
 

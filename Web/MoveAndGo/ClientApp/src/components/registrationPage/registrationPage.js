@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import postRequest from '../../services/postRequest';
 import Success from '../success/success';
-import Error from '../error/error';
 import Loading from '../loading/loading';
+import Error from '../error/error';
 import './registrationPage.scss';
 
 export default class RegistrationPage extends Component {
@@ -42,11 +42,12 @@ export default class RegistrationPage extends Component {
   onSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const data = JSON.stringify(Object.fromEntries(formData.entries()));
+    const data = Object.fromEntries(formData.entries());
     this.onLoading();
     postRequest('/api/account/registration', data)
       .then(this.onSuccess)
-      .catch(this.onError);
+      .catch(this.onError)
+      .finally(event.target.reset())
   }
 
   render() {
@@ -57,7 +58,7 @@ export default class RegistrationPage extends Component {
     const result = !(loading || error) ? successMessage : null;
     return (
       <div className="form-body">
-        <form className="form" onSubmit={event => this.onSubmit(event)}>
+        <form className="form" onSubmit={this.onSubmit}>
           <h1 className="form-title">Registration</h1>
           {errorMessage}
           {loadingMessage}
@@ -95,7 +96,6 @@ export default class RegistrationPage extends Component {
               type="email"
               name="email"
               tabIndex="3"
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$"
               required
             />
           </div>
