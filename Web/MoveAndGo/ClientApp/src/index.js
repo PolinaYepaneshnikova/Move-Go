@@ -12,5 +12,5 @@ ReactDOM.render(
   <BrowserRouter basename={document.getElementsByTagName('base')[0].getAttribute('href')}>
     <App />
   </BrowserRouter>,
-  document.getElementById('root'));
+  document.getElementById('wrapper'));
 
