@@ -32,7 +32,7 @@ namespace MoveAndGo.Controllers
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         } )*/
-       //await resp.json()
+        //await resp.json()
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Registration(RegistrationViewModel model)
@@ -42,8 +42,6 @@ namespace MoveAndGo.Controllers
                 return StatusCode(403, "You are not anonymous");
             }*/
             
-            List<string> errors = new List<string>(ModelState.ErrorCount);
-
             if (ModelState.IsValid)
             {
                 User user = new User
@@ -78,6 +76,59 @@ namespace MoveAndGo.Controllers
                 return BadRequest(ModelState);
             }
             
+        }
+
+        /*let data = { nickname: "Ageris", password: "12345" }
+        let resp = await fetch("/api/account/login", {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        } )*/
+        //await resp.json()
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            /*if (User.Identity.IsAuthenticated)
+            {
+                return StatusCode(403, "You are not anonymous");
+            }*/
+
+            if (ModelState.IsValid)
+            {
+                IdentityUser user = await _manager.FindByNameAsync(model.Nickname);
+                if (user != null)
+                {
+                    await _signInManager.SignOutAsync();
+                    Microsoft.AspNetCore.Identity.SignInResult result
+                        = await _signInManager.PasswordSignInAsync(model.Nickname, model.Password, false, false);
+
+                    if (result.Succeeded)
+                    {
+                        return Ok(user);
+                    }
+                }
+
+                return BadRequest("Wrong login or password");
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+
+        }
+
+        /*let resp = await fetch("/api/account/logout", {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        } )*/
+        //await resp.text()
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return Ok("You are logged out");
         }
 
         public IActionResult CurrentUser()
