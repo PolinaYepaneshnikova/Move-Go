@@ -9,15 +9,17 @@ export default function HomePage() {
         <div className="homePage-btn">
           <a
             className="homePage-link animated-button btn-sm"
-            href="#"
+            href="/login"
           >
-            <span className="homePage-text">Log in</span>
+            <i class="fas fa-user homePage-icon"></i>
+            <span className="homePage-text">Log In</span>
           </a>
           <a
             className="homePage-link"
-            href="#"
+            href="/signup"
           >
-            <span className="homePage-text">Registration</span>
+            <i class="fas fa-user-plus homePage-icon"></i>
+            <span className="homePage-text">Sign Up</span>
           </a>
         </div>
       </div>

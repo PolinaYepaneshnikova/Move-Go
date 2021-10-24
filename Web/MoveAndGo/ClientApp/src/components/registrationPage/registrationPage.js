@@ -3,7 +3,7 @@ import postRequest from '../../services/postRequest';
 import Success from '../success/success';
 import Loading from '../loading/loading';
 import Error from '../error/error';
-import './registrationPage.scss';
+import './registrationLoginPage.scss';
 
 export default class RegistrationPage extends Component {
   state = {
@@ -59,7 +59,7 @@ export default class RegistrationPage extends Component {
     return (
       <div className="form-body">
         <form className="form" onSubmit={this.onSubmit}>
-          <h1 className="form-title">Registration</h1>
+          <h1 className="form-title">Sign Up</h1>
           {errorMessage}
           {loadingMessage}
           {result}
@@ -123,7 +123,8 @@ export default class RegistrationPage extends Component {
               required
             />
           </div>
-          <button onClick={this.onReset} className="form-btn" tabIndex="6">Submit</button>
+          <button onClick={this.onReset} className="form-btn" tabIndex="6">Sign Up</button>
+          <p className="form-signup"><span className="form-signup-title">Do have account?</span> <a className="form-signup-link" href="/login">Log In</a></p>
         </form>
       </div>
     );
