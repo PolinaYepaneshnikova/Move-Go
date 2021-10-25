@@ -4,6 +4,7 @@ import Success from '../success/success';
 import Loading from '../loading/loading';
 import Error from '../error/error';
 import './registrationLoginPage.scss';
+import { Redirect } from 'react-router-dom';
 
 export default class RegistrationPage extends Component {
   state = {
@@ -34,8 +35,7 @@ export default class RegistrationPage extends Component {
 
   onReset = () => {
     this.setState({
-      error: false,
-      success: false
+      error: false
     });
   }
 
@@ -54,7 +54,7 @@ export default class RegistrationPage extends Component {
     const { success, error, loading } = this.state;
     const errorMessage = error ? <Error /> : null;
     const loadingMessage = loading ? <Loading /> : null;
-    const successMessage = success ? <Success /> : null;
+    const successMessage = success ? <Redirect from='/signup' to='/login' /> : null;
     const result = !(loading || error) ? successMessage : null;
     return (
       <div className="form-body">

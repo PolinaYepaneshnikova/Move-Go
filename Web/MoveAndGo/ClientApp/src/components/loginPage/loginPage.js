@@ -53,8 +53,7 @@ export default class LoginPage extends Component {
 
   onReset = () => {
     this.setState({
-      error: false,
-      success: false
+      error: false
     });
   }
 
