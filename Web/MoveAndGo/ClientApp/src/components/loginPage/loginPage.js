@@ -4,6 +4,7 @@ import Error from '../error/error';
 import Success from '../success/success';
 import Loading from '../loading/loading';
 import './registrationLoginPage.scss';
+import { Redirect } from 'react-router-dom';
 
 export default class LoginPage extends Component {
   state = {
@@ -61,7 +62,7 @@ export default class LoginPage extends Component {
     const { showPassword, error, success, loading } = this.state;
     const errorMessage = error ? <Error /> : null;
     const loadingMessage = loading ? <Loading /> : null;
-    const successMessage = success ? <Success /> : null;
+    const successMessage = success ? <Redirect from='/login' to='/home' /> : null;
     const result = !(loading || error) ? successMessage : null;
     return (
       <div className="form-body">
