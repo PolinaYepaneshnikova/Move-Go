@@ -6,20 +6,5 @@ namespace MoveAndGo.Models
     public class MoveAndGoContext : IdentityDbContext<User>
     {
         public MoveAndGoContext(DbContextOptions<MoveAndGoContext> options) : base(options) { }
-
-        public DbSet<Workout> Workouts { get; set; }
-        public DbSet<PostType> PostTypes { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            builder.Entity<PostType>().HasData(new PostType[]
-            {
-                new PostType() { Type = "Workout" },
-                new PostType() { Type = "Fitness" },
-                new PostType() { Type = "Running" },
-            });
-
-            base.OnModelCreating(builder);
-        }
     }
 }

@@ -144,30 +144,6 @@ namespace MoveAndGo.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("MoveAndGo.Models.PostType", b =>
-                {
-                    b.Property<string>("Type")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Type");
-
-                    b.ToTable("PostTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Type = "Workout"
-                        },
-                        new
-                        {
-                            Type = "Fitness"
-                        },
-                        new
-                        {
-                            Type = "Running"
-                        });
-                });
-
             modelBuilder.Entity("MoveAndGo.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -241,33 +217,6 @@ namespace MoveAndGo.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("MoveAndGo.Models.Workout", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Intensity")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Type1")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Video")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Type1");
-
-                    b.ToTable("Workouts");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -317,15 +266,6 @@ namespace MoveAndGo.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("MoveAndGo.Models.Workout", b =>
-                {
-                    b.HasOne("MoveAndGo.Models.PostType", "Type")
-                        .WithMany()
-                        .HasForeignKey("Type1");
-
-                    b.Navigation("Type");
                 });
 #pragma warning restore 612, 618
         }
