@@ -20,6 +20,14 @@ namespace MoveAndGo.Models
             });
 
             base.OnModelCreating(builder);
+
+            builder.Entity<Workout>()
+                .HasOne(w => w.Type)
+                .WithMany(t => t.Workouts);
+
+            builder.Entity<PostType>()
+                .HasMany(t => t.Workouts)
+                .WithOne(w => w.Type);
         }
     }
 }
