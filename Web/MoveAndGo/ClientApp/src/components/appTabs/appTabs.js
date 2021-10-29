@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './appTabs.scss';
+import CardWorkout from '../cardWorkout/cardWorkout';
 
 const tabItems = [
   {
     id: 1,
     title: 'Workouts',
-    content: 'step 1 content',
+    content: <CardWorkout />,
   },
   {
     id: 2,
@@ -23,7 +24,7 @@ export default function AppTabs() {
         {
           tabItems.map(({ id, title }) => {
             return <TabItemComponent
-              key={title}
+              key={id}
               title={title}
               onItemClicked={() => setActive(id)}
               isActive={active === id}
