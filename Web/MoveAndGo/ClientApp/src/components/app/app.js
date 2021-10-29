@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import StartPage from '../startPage/startPage';
 import LoginPage from '../loginPage/loginPage';
 import HomePage from '../homePage/homePage';
@@ -10,19 +10,17 @@ const App = () => {
   return (
     <Router>
       <div className='app'>
-        <main>
-          <Switch>
-            <Route exact path='/'>
-              {localStorage.getItem('logged') ? <HomePage /> : <StartPage />}
-            </Route>
-            <Route exact path='/login'>
-              <LoginPage />
-            </Route>
-            <Route exact path='/signup'>
-              <RegistrationPage />
-            </Route>
-          </Switch>
-        </main>
+        <Switch>
+          <Route exact path='/'>
+            {localStorage.getItem('logged') ? <HomePage /> : <StartPage />}
+          </Route>
+          <Route exact path='/login'>
+            <LoginPage />
+          </Route>
+          <Route exact path='/signup'>
+            <RegistrationPage />
+          </Route>
+        </Switch>
       </div>
     </Router>
   );
