@@ -24,13 +24,18 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ResourceFiles\Video\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ResourceFiles\Video\**" />
+    <EmbeddedResource Remove="ResourceFiles\Video\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ResourceFiles\Video\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="AppData\" />
+    <Folder Include="ResourceFiles\Avatars\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
