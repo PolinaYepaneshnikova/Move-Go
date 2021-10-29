@@ -2,55 +2,56 @@ import React, { useState } from 'react';
 import './appTabs.scss';
 import CardWorkout from '../cardWorkout/cardWorkout';
 
-const tabItems = [
-  {
-    id: 1,
-    title: 'Workouts',
-    content: <CardWorkout />,
-  },
-  {
-    id: 2,
-    title: 'Articles',
-    content: 'step 2 content',
-  }
-];
+export default function AppTabs({ data }) {
+  const [active, setActive] = useState(1);
 
-export default function AppTabs() {
-  const [active, setActive] = useState(0);
+  const tabItems = [
+    {
+      id: 1,
+      title: 'Workouts',
+      content: data.map(item => {
+        const { id, ...dataProp } = item;
+        return (
+          <CardWorkout
+            key={id}
+            {...dataProp}
+          />
+        );
+      })
+    },
+    {
+      id: 2,
+      title: 'Articles',
+      content: '2'
+    }
+  ];
+
+  const content = tabItems.map(({ id, content }) => {
+    return active === id ? content : null;
+  });
+
+  const tabs = tabItems.map(({ id, title }) => {
+    let className = active === id ? 'appTabs-tabItem active' : 'appTabs-tabItem';
+    return (
+      <span
+        key={id}
+        title={title}
+        className={className}
+        onClick={() => setActive(id)}
+      >
+        {title}
+      </span>
+    )
+  });
 
   return (
     <div className="appTabs">
       <div className="appTabs-tabs">
-        {
-          tabItems.map(({ id, title }) => {
-            return <TabItemComponent
-              key={id}
-              title={title}
-              onItemClicked={() => setActive(id)}
-              isActive={active === id}
-            />
-          })
-        }
+        {tabs}
       </div>
-      <div className="appTabs-content">
-        {
-          tabItems.map(({ id, content }) => {
-            return active === id ? content : null
-          })
-        }
-      </div>
+      <ul className="appTabs-content">
+        {content}
+      </ul>
     </div>
   )
 }
-
-const TabItemComponent = ({
-  title = '',
-  onItemClicked = () => console.error('You passed no action to the component'),
-  isActive = true,
-}) => {
-  return (
-    <div className={isActive ? 'appTabs-tabItem active' : 'appTabs-tabItem'} onClick={onItemClicked}>
-      <span className='appTabs-contents'>{title}</span>
-    </div>
-  )
-};
