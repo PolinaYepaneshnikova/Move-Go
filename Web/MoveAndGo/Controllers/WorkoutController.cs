@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoveAndGo.Models;
@@ -13,20 +14,35 @@ namespace MoveAndGo.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkoutController : ControllerBase
+    public class WorkoutController : Controller
     {
+        private readonly UserManager<User> _manager;
         private readonly MoveAndGoContext _context;
 
-        public WorkoutController(MoveAndGoContext context)
+        public WorkoutController(UserManager<User> manager, MoveAndGoContext context)
         {
+            _manager = manager;
             _context = context;
         }
 
         // GET: api/Workout
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Workout>>> GetWorkouts()
+        public async Task<ActionResult<IEnumerable<Object>>> GetWorkouts()
         {
-            return await _context.Workouts.ToListAsync();
+            return new ObjectResult((await _context.Workouts.ToListAsync()).Select(
+                async e =>
+                new
+                {
+                    e.Id,
+                    e.Title,
+                    e.Author,
+                    AuthorAvatar = (await _manager.FindByNameAsync(e.Author)).Avatar,
+                    e.Video,
+                    e.Text,
+                    e.TypeId,
+                    e.Intensity
+                }
+            ).Select(e => e.Result));
         }
 
         // GET: api/Workout/5
