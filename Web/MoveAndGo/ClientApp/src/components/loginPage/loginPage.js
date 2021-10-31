@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import postRequest from '../../services/postRequest';
 import Error from '../error/error';
 import Loading from '../loading/loading';
+import Success from '../success/success';
 import './registrationLoginPage.scss';
 
 const LoginPage = () => {
@@ -25,6 +26,7 @@ const LoginPage = () => {
     setLoading(false);
     localStorage.setItem('logged', true);
     localStorage.setItem('nickname', data.userName);
+    document.location.href = '/';
   }
 
   const onSubmit = (event) => {
@@ -48,7 +50,7 @@ const LoginPage = () => {
 
   const errorMessage = error ? <Error /> : null;
   const loadingMessage = loading ? <Loading /> : null;
-  const result = !(loading || error) && success ? document.location.href = '/' : null;
+  const result = !(loading || error) && success ? <Success /> : null;
 
   return (
     <div className="form-body">

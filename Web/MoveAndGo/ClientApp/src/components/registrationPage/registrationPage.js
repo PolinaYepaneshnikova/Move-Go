@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import postRequest from '../../services/postRequest';
 import Loading from '../loading/loading';
 import Error from '../error/error';
+import Success from '../success/success';
 import './registrationLoginPage.scss';
 import { Link } from 'react-router-dom';
 
@@ -13,6 +14,7 @@ const RegistrationPage = () => {
   const onSuccess = () => {
     setSuccess(true);
     setLoading(false);
+    document.location.href = '/login';
   }
 
   const onError = () => {
@@ -41,7 +43,7 @@ const RegistrationPage = () => {
 
   const errorMessage = error ? <Error /> : null;
   const loadingMessage = loading ? <Loading /> : null;
-  const result = !(loading || error) && success ? document.location.href = '/login' : null;
+  const result = !(loading || error) && success ? <Success /> : null;
   return (
     <div className="form-body">
       <form className="form" onSubmit={onSubmit}>
