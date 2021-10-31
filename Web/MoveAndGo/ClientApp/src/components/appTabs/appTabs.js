@@ -2,22 +2,14 @@ import React, { useState } from 'react';
 import './appTabs.scss';
 import CardWorkout from '../cardWorkout/cardWorkout';
 
-export default function AppTabs({ data }) {
+export default function AppTabs() {
   const [active, setActive] = useState(1);
 
   const tabItems = [
     {
       id: 1,
       title: 'Workouts',
-      content: data.map(item => {
-        const { id, ...dataProp } = item;
-        return (
-          <CardWorkout
-            key={id}
-            {...dataProp}
-          />
-        );
-      })
+      content: <CardWorkout key={1} />
     },
     {
       id: 2,
