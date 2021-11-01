@@ -28,11 +28,11 @@ namespace MoveAndGo
 
             services.AddIdentity<User, IdentityRole>(options =>
             {
-                options.Password.RequiredLength = 5;   // минимальная длина
-                options.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
-                options.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
-                options.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
-                options.Password.RequireDigit = false; // требуются ли цифры
+                options.Password.RequiredLength = 5;   // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+                options.Password.RequireNonAlphanumeric = false;   // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                options.Password.RequireLowercase = false; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                options.Password.RequireUppercase = false; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                options.Password.RequireDigit = false; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             }).AddEntityFrameworkStores<MoveAndGoContext>();
 
             services.ConfigureApplicationCookie(options =>
@@ -80,7 +80,7 @@ namespace MoveAndGo
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "api/{controller}/{action}/{id?}");
             });
 
             app.UseSpa(spa =>

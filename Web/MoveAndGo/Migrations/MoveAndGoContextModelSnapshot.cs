@@ -217,6 +217,42 @@ namespace MoveAndGo.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+<<<<<<< HEAD
+=======
+            modelBuilder.Entity("MoveAndGo.Models.Workout", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Author")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Datetime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Intensity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TypeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Video")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Workouts");
+                });
+
+>>>>>>> feature/tabWorkout
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -267,6 +303,23 @@ namespace MoveAndGo.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
+<<<<<<< HEAD
+=======
+
+            modelBuilder.Entity("MoveAndGo.Models.Workout", b =>
+                {
+                    b.HasOne("MoveAndGo.Models.PostType", "Type")
+                        .WithMany("Workouts")
+                        .HasForeignKey("TypeId");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("MoveAndGo.Models.PostType", b =>
+                {
+                    b.Navigation("Workouts");
+                });
+>>>>>>> feature/tabWorkout
 #pragma warning restore 612, 618
         }
     }

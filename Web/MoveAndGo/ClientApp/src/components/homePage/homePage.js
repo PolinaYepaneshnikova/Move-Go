@@ -1,28 +1,16 @@
 import React from "react";
-import "./homePage.scss";
+import AppTabs from "../appTabs/appTabs";
+import AppUpHeader from "../appUpHeader/appUpHeader";
 
-export default function HomePage() {
+const HomePage = () => {
   return (
-    <div className="homePage">
-      <div className="homePage-body">
-        <h1 className="homePage-title">{"Move&GO"}</h1>
-        <div className="homePage-btn">
-          <a
-            className="homePage-link animated-button btn-sm"
-            href="/login"
-          >
-            <i class="fas fa-user homePage-icon"></i>
-            <span className="homePage-text">Log In</span>
-          </a>
-          <a
-            className="homePage-link"
-            href="/signup"
-          >
-            <i class="fas fa-user-plus homePage-icon"></i>
-            <span className="homePage-text">Sign Up</span>
-          </a>
-        </div>
-      </div>
-    </div>
+    <>
+      <AppUpHeader />
+      <main>
+        <AppTabs />
+      </main>
+    </>
   );
 }
+
+export default HomePage;

@@ -1,21 +1,29 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router';
-import Layout from '../layout/layout';
-import HomePage from '../homePage/homePage';
-import LoginPage from '../loginPage/loginPage';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import StartPage from '../startPage/startPage';
+import LoginPage from '../loginPage/loginPage';
+import HomePage from '../homePage/homePage';
 import RegistrationPage from '../registrationPage/registrationPage';
+import './app.scss';
 
-export default class App extends Component {
-
-  render() {
-    return (
-      <Layout>
-        <Route exact path='/' component={HomePage} />
-        <Route path='/login' component={LoginPage} />
-        <Route path='/signup' component={RegistrationPage} />
-        <Route path='/home' component={StartPage} />
-      </Layout>
-    );
-  }
+const App = () => {
+  return (
+    <Router>
+      <div className='app'>
+        <Switch>
+          <Route exact path='/'>
+            {localStorage.getItem('logged') ? <HomePage /> : <StartPage />}
+          </Route>
+          <Route exact path='/login'>
+            <LoginPage />
+          </Route>
+          <Route exact path='/signup'>
+            <RegistrationPage />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
 }
+
+export default App;

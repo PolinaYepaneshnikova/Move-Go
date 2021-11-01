@@ -96,7 +96,7 @@ namespace MoveAndGo.Controllers
 
             if (ModelState.IsValid)
             {
-                IdentityUser user = await _manager.FindByNameAsync(model.Nickname);
+                User user = await _manager.FindByNameAsync(model.Nickname);
                 if (user != null)
                 {
                     await _signInManager.SignOutAsync();
@@ -105,6 +105,7 @@ namespace MoveAndGo.Controllers
 
                     if (result.Succeeded)
                     {
+                        user.PasswordHash = null;
                         return Ok(user);
                     }
                 }
