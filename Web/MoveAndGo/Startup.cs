@@ -66,8 +66,6 @@ namespace MoveAndGo
                 app.UseHsts();
             }
 
-            System.Console.WriteLine(env.ContentRootPath + "/ResourceFiles/Avatars/");
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
@@ -82,7 +80,7 @@ namespace MoveAndGo
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "api/{controller}/{action}/{id?}");
             });
 
             app.UseSpa(spa =>

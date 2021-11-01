@@ -12,8 +12,8 @@ using MoveAndGo.Models;
 namespace MoveAndGo.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class WorkoutController : Controller
     {
         private readonly UserManager<User> _manager;
@@ -24,6 +24,10 @@ namespace MoveAndGo.Controllers
             _manager = manager;
             _context = context;
         }
+
+        private readonly string
+            avatarRoute = "/api/media/avatar/",
+            videoRoute = "/api/media/video/";
 
         // GET: api/Workout
         [HttpGet]
@@ -36,18 +40,19 @@ namespace MoveAndGo.Controllers
                     e.Id,
                     e.Title,
                     e.Author,
-                    AuthorAvatar = (await _manager.FindByNameAsync(e.Author)).Avatar,
-                    e.Video,
+                    AuthorAvatar = avatarRoute + (await _manager.FindByNameAsync(e.Author)).Avatar,
+                    Video = videoRoute + e.Video,
                     e.Text,
                     e.TypeId,
-                    e.Intensity
+                    Intensity = Workout.Intensities[(int)e.Intensity],
+                    e.Datetime,
                 }
-            ).Select(e => e.Result));
+            ).Select(e => e.Result).Reverse());
         }
 
         // GET: api/Workout/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Workout>> GetWorkout(string id)
+        public async Task<ActionResult<Object>> GetWorkout(string id)
         {
             var workout = await _context.Workouts.FindAsync(id);
 
@@ -56,7 +61,18 @@ namespace MoveAndGo.Controllers
                 return NotFound();
             }
 
-            return workout;
+            return new
+            {
+                workout.Id,
+                workout.Title,
+                workout.Author,
+                AuthorAvatar = avatarRoute + (await _manager.FindByNameAsync(workout.Author)).Avatar,
+                Video = videoRoute + workout.Video,
+                workout.Text,
+                workout.TypeId,
+                Intensity = Workout.Intensities[(int)workout.Intensity],
+                workout.Datetime,
+            };
         }
 
         // POST: api/Workout

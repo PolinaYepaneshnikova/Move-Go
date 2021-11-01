@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using System.Text.Json.Serialization;
@@ -16,10 +19,14 @@ namespace MoveAndGo.Models
 
         [ForeignKey("PostType")]
         public virtual string TypeId { get; set; }
-        public string Intensity { get; set; }
+        public int Intensity { get; set; }
+
+        public DateTime Datetime { get; set; }
 
         [JsonIgnore]
         public virtual PostType Type { get; set; }
+
+        public static List<string> Intensities = new List<string>() { "Easy", "Medium", "Hard" };
     }
 
     public enum IntensityEnum { easy = 0, medium = 1, hard = 2 }

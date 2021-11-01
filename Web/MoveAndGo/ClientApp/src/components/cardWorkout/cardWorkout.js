@@ -37,12 +37,12 @@ export default function CardWorkout() {
 
   const renderItem = (arr) => {
     const items = arr.map(item => {
-      const { id, title, video, typeId, intensity, text, author, authorAvatar } = item;
+      const { id, title, video, typeId, intensity, text, author, authorAvatar, datetime } = item;
       return (
         <li className='card' key={id}>
           <h2 className='card-title'>{title}</h2>
           <video className='card-video' controls="controls" width='inherit' height='300px'>
-            <source src={`/api/media/video/${video}`} type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+            <source src={video} type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
           </video>
           <div className='card__btns'>
             <i className="far fa-star card__btns-btn"></i>
@@ -54,8 +54,8 @@ export default function CardWorkout() {
           </div>
           <p className='card-desc'>{text}</p>
           <div className='card__info'>
-            <Link to='/' className='card__info-link'><img className='card__info-img' src={`/api/media/avatar/${authorAvatar}`} alt="avatar" /> <span className='card__info-nickname'>{author}</span></Link>
-            <span className='card__info-time'>{new Date().toLocaleString()}</span>
+            <Link to='/' className='card__info-link'><img className='card__info-img' src={authorAvatar} alt="avatar" /> <span className='card__info-nickname'>{author}</span></Link>
+            <span className='card__info-time'>{new Date(datetime).toLocaleString()}</span>
           </div>
         </li>
       );

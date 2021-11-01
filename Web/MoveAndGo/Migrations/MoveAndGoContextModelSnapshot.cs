@@ -249,8 +249,11 @@ namespace MoveAndGo.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Intensity")
+                    b.Property<DateTime>("Datetime")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Intensity")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Text")
                         .HasColumnType("TEXT");
