@@ -6,8 +6,7 @@ namespace MoveAndGo.Models
     public class MoveAndGoContext : IdentityDbContext<User>
     {
         public MoveAndGoContext(DbContextOptions<MoveAndGoContext> options) : base(options) { }
-<<<<<<< HEAD
-=======
+
 
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<PostType> PostTypes { get; set; }
@@ -31,6 +30,5 @@ namespace MoveAndGo.Models
                 .HasMany(t => t.Workouts)
                 .WithOne(w => w.Type);
         }
->>>>>>> feature/tabWorkout
     }
 }
