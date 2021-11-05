@@ -15,22 +15,32 @@
     }
   }
 
-  &__block {
+  &-input {
+    padding: 0 10px;
+    height: 30px;
+    width: 200px;
+    margin: 0 60px 0 0;
+    border: 1px solid #c4c4c4;
+  }
+
+  &__menu {
     display: flex;
     align-items: center;
     justify-content: center;
-    &-input {
-      padding: 0 10px;
-      height: 30px;
-      width: 200px;
-      margin: 0 60px 0 0;
-      border: 1px solid #c4c4c4;
+    &-link {
+      margin-right: 35px;
+      font-size: 22px;
+      color: #000000;
+
+      &:last-child {
+        margin-right: 0px;
+      }
     }
     &-photo {
       border: 1px solid #c4c4c4;
       border-radius: 50%;
-      height: 45px;
-      width: 45px;
+      height: 35px;
+      width: 35px;
     }
   }
 }
