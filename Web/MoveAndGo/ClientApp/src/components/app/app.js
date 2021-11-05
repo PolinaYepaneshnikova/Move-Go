@@ -4,6 +4,8 @@ import StartPage from '../startPage/startPage';
 import LoginPage from '../loginPage/loginPage';
 import HomePage from '../homePage/homePage';
 import RegistrationPage from '../registrationPage/registrationPage';
+import AddWorkout from '../addWorkout/addWorkout';
+import AddPage from '../addPage/addPage';
 import './app.scss';
 
 const App = () => {
@@ -19,6 +21,12 @@ const App = () => {
           </Route>
           <Route exact path='/signup'>
             <RegistrationPage />
+          </Route>
+          <Route exact path='/add'>
+            <AddPage />
+          </Route>
+          <Route exact path='/addWorkout'>
+            <AddWorkout />
           </Route>
         </Switch>
       </div>

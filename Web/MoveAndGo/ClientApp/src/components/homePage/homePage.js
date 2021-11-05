@@ -1,4 +1,5 @@
 import React from "react";
+import AddPage from "../addPage/addPage";
 import AppTabs from "../appTabs/appTabs";
 import AppUpHeader from "../appUpHeader/appUpHeader";
 
@@ -8,6 +9,7 @@ const HomePage = () => {
       <AppUpHeader />
       <main>
         <AppTabs />
+        <AddPage />
       </main>
     </>
   );
