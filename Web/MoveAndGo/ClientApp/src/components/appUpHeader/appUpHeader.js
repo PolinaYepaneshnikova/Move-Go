@@ -10,7 +10,7 @@ export default function AppUpHeader() {
       <input type='text' className='appUpHeader-input' placeholder='Search' />
       <div className='appUpHeader__menu'>
         <NavLink to='/' className='appUpHeader__menu-link'><i className="fas fa-home appUpHeader__menu-link"></i></NavLink>
-        <NavLink to='/add' className='appUpHeader__menu-link'><i class="fas fa-plus appUpHeader__menu-link"></i></NavLink>
+        <NavLink to='/add' className='appUpHeader__menu-link'><i class="far fa-plus-square appUpHeader__menu-link"></i></NavLink>
         <NavLink to='/profile' className='appUpHeader__menu-link'><img src={avatar} alt="photo_user" className='appUpHeader__menu-photo' /></NavLink>
       </div>
     </header>
