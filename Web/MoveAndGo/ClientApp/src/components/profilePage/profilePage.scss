@@ -1,0 +1,88 @@
+.profile {
+  height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+
+  &__person {
+    display: flex;
+    &-photo {
+      margin-right: 44px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &__avatar {
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        border: 2px solid #c4c4c4;
+      }
+    }
+    &-info {
+      flex: 3;
+
+      &__nickname {
+        margin-bottom: 20px;
+        &-nick {
+          font-size: 28px;
+        }
+        &-edit {
+          margin-left: 30px;
+          border-radius: 4px;
+          width: 90px;
+          height: 30px;
+          font-weight: 600;
+          text-align: center;
+          padding: 5px 9px;
+          color: #000000;
+          border: 1px solid #c4c4c4;
+
+          &:hover {
+            color: #000;
+            text-decoration: none;
+          }
+        }
+      }
+
+      &__count {
+        &-span {
+          margin-right: 20px;
+          font-size: 17px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &__posts {
+    border-top: 1px solid #c4c4c4;
+    margin: 44px;
+    height: 2px;
+
+    &-tabs {
+      display: flex;
+    }
+
+    &-tabItem {
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex: 1;
+      font-size: 16px;
+      color: #c4c4c4;
+      transition: all 0.5s;
+
+      &.active {
+        color: black;
+        border-bottom: 1px solid black;
+      }
+    }
+  }
+}

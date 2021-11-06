@@ -8,6 +8,7 @@ import AddWorkout from '../addWorkout/addWorkout';
 import RegistrationPage from '../registrationPage/registrationPage';
 import './app.scss';
 import AppUpHeader from '../appUpHeader/appUpHeader';
+import ProfilePage from '../profilePage/profilePage';
 
 const App = () => {
   return (
@@ -29,6 +30,9 @@ const App = () => {
           </Route>
           <Route exact path='/addWorkout'>
             <AddWorkout />
+          </Route>
+          <Route exact path='/profile'>
+            <ProfilePage />
           </Route>
         </Switch>
       </main>

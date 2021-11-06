@@ -8,11 +8,11 @@ export default function AppUpHeader() {
     <header className="appUpHeader">
       <Link to='/' className='appUpHeader-title'>{"Move&GO"}</Link>
       <input type='text' className='appUpHeader-input' placeholder='Search' />
-      <ul className='appUpHeader__menu'>
+      <div className='appUpHeader__menu'>
         <NavLink to='/' className='appUpHeader__menu-link'><i className="fas fa-home appUpHeader__menu-link"></i></NavLink>
-        <NavLink to='/add' className='appUpHeader__menu-link'><i className="fas fa-plus-square appUpHeader__menu-link"></i></NavLink>
+        <NavLink to='/add' className='appUpHeader__menu-link'><i class="fas fa-plus appUpHeader__menu-link"></i></NavLink>
         <NavLink to='/profile' className='appUpHeader__menu-link'><img src={avatar} alt="photo_user" className='appUpHeader__menu-photo' /></NavLink>
-      </ul>
+      </div>
     </header>
   );
 }
