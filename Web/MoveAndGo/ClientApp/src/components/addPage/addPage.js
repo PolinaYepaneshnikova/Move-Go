@@ -1,22 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './addPage.scss';
 
 export default function AddPage() {
   return (
-    <div className="startPage">
-      <div className="startPage-body">
-        <div className="startPage-btn">
+    <div className="addPage">
+      <div className="addPage-body">
+        <div className="addPage-btn">
           <Link
-            className="startPage-link animated-button btn-sm"
+            className="addPage-link"
             to="/addWorkout"
           >
-            <span className="startPage-text">Workout</span>
+            <span className="addPage-text">Workout</span>
           </Link>
           <Link
-            className="startPage-link"
+            className="addPage-link"
             to="/addArticle"
           >
-            <span className="startPage-text">Article</span>
+            <span className="addPage-text">Article</span>
           </Link>
         </div>
       </div>

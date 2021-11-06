@@ -3,15 +3,17 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import StartPage from '../startPage/startPage';
 import LoginPage from '../loginPage/loginPage';
 import HomePage from '../homePage/homePage';
-import RegistrationPage from '../registrationPage/registrationPage';
-import AddWorkout from '../addWorkout/addWorkout';
 import AddPage from '../addPage/addPage';
+import AddWorkout from '../addWorkout/addWorkout';
+import RegistrationPage from '../registrationPage/registrationPage';
 import './app.scss';
+import AppUpHeader from '../appUpHeader/appUpHeader';
 
 const App = () => {
   return (
     <Router>
-      <div className='app'>
+      {localStorage.getItem('logged') ? <AppUpHeader /> : null}
+      <main className='app'>
         <Switch>
           <Route exact path='/'>
             {localStorage.getItem('logged') ? <HomePage /> : <StartPage />}
@@ -29,7 +31,7 @@ const App = () => {
             <AddWorkout />
           </Route>
         </Switch>
-      </div>
+      </main>
     </Router>
   );
 }
