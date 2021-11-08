@@ -19,12 +19,19 @@ namespace MoveAndGo.Controllers
         private readonly UserManager<User> _manager;
         private readonly SignInManager<User> _signInManager;
         private readonly IWebHostEnvironment _env;
-        public AccountController(UserManager<User> userMgr, SignInManager<User> signinMgr, IWebHostEnvironment env)
+        private readonly MoveAndGoContext _context;
+        public AccountController
+            (UserManager<User> userMgr, SignInManager<User> signinMgr, IWebHostEnvironment env, MoveAndGoContext context)
         {
             _manager = userMgr;
             _signInManager = signinMgr;
             _env = env;
+            _context = context;
         }
+
+
+
+        private readonly string avatarRoute = "/api/media/avatar/";
 
         /*let data = { email: "serhii.cherevan@nure.ua", fullname: "Sergey Cherevan", nickname: "Ageris", password: "12345", confirmpassword: "12345" }
         let resp = await fetch("/api/account/registration", {
@@ -57,6 +64,8 @@ namespace MoveAndGo.Controllers
                     // установка куки
                     await _signInManager.SignInAsync(user, false);
 
+                    user.Avatar = avatarRoute + user.Avatar;
+                    user.PasswordHash = null;
                     return Ok(user);
                 }
                 else
@@ -71,11 +80,8 @@ namespace MoveAndGo.Controllers
                     }
                 }
             }
-            else
-            {
-                return BadRequest(ModelState);
-            }
             
+            return BadRequest(ModelState);
         }
 
         /*let data = { nickname: "Ageris", password: "12345" }
@@ -100,11 +106,13 @@ namespace MoveAndGo.Controllers
                 if (user != null)
                 {
                     await _signInManager.SignOutAsync();
+
                     Microsoft.AspNetCore.Identity.SignInResult result
                         = await _signInManager.PasswordSignInAsync(model.Nickname, model.Password, false, false);
 
                     if (result.Succeeded)
                     {
+                        user.Avatar = avatarRoute + user.Avatar;
                         user.PasswordHash = null;
                         return Ok(user);
                     }
@@ -112,11 +120,8 @@ namespace MoveAndGo.Controllers
 
                 return BadRequest("Wrong login or password");
             }
-            else
-            {
-                return BadRequest(ModelState);
-            }
 
+            return BadRequest(ModelState);
         }
 
         /*let resp = await fetch("/api/account/logout", {
@@ -132,14 +137,18 @@ namespace MoveAndGo.Controllers
             return Ok("You are logged out");
         }
 
-        public IActionResult CurrentUser()
+        public async Task<IActionResult> CurrentUser()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User?.Identity?.IsAuthenticated != true)
             {
                 return Unauthorized();
             }
 
-            return new ObjectResult(User.Identity);
+            User user = await _manager.FindByNameAsync(User.Identity.Name);
+            user.Avatar = avatarRoute + user.Avatar;
+            user.PasswordHash = null;
+
+            return Ok(user);
         }
     }
 }

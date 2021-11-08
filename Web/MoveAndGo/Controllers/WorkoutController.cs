@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +8,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+
 using MoveAndGo.Models;
+using MoveAndGo.Models.ViewModels;
 
 namespace MoveAndGo.Controllers
 {
@@ -17,11 +23,13 @@ namespace MoveAndGo.Controllers
     public class WorkoutController : Controller
     {
         private readonly UserManager<User> _manager;
+        private readonly IWebHostEnvironment _env;
         private readonly MoveAndGoContext _context;
-
-        public WorkoutController(UserManager<User> manager, MoveAndGoContext context)
+        public WorkoutController
+            (UserManager<User> userMgr, IWebHostEnvironment env, MoveAndGoContext context)
         {
-            _manager = manager;
+            _manager = userMgr;
+            _env = env;
             _context = context;
         }
 
@@ -77,48 +85,73 @@ namespace MoveAndGo.Controllers
 
         // POST: api/Workout
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<Workout>> PostWorkout(Workout workout)
-        //{
-        //    _context.Workouts.Add(workout);
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (WorkoutExists(workout.Id))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+        [HttpPost]
+        public async Task<ActionResult<Workout>> PostWorkout(AddWorkoutViewModel model)
+        {
+            //if (model.Video.ContentType != ".mp4")
+            //{
+            //    ModelState.AddModelError(nameof(AddWorkoutViewModel.Video), "Type of video is not .mp4");
 
-        //    return CreatedAtAction("GetWorkout", new { id = workout.Id }, workout);
-        //}
+            //    return BadRequest(ModelState);
+            //}
 
-        //// DELETE: api/Workout/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteWorkout(string id)
-        //{
-        //    var workout = await _context.Workouts.FindAsync(id);
-        //    if (workout == null)
-        //    {
-        //        return NotFound();
-        //    }
+            string id = Guid.NewGuid().ToString();
+            string fileName = id + ".mp4";
+            string filePath = Path.Combine(_env.ContentRootPath, "ResourceFiles/Avatars/" + fileName);
 
-        //    _context.Workouts.Remove(workout);
-        //    await _context.SaveChangesAsync();
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await model.Video.CopyToAsync(fileStream);
+            }
 
-        //    return NoContent();
-        //}
+            _context.PostTypes.Add(new PostType() { Type = model.Type });
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException exp)
+            {
+                if (_env.IsDevelopment())
+                {
+                    return StatusCode(500, exp);
+                }
+                else
+                {
+                    return StatusCode(500);
+                }
+            }
 
-        //private bool WorkoutExists(string id)
-        //{
-        //    return _context.Workouts.Any(e => e.Id == id);
-        //}
+
+            Workout workout = new Workout()
+            {
+                Id = id,
+                Title = model.Title,
+                Author = User.Identity.Name,
+                Video = fileName,
+                Text = model.Description,
+                TypeId = model.Type,
+                Intensity = Workout.Intensities.IndexOf(model.Level),
+                Datetime = DateTime.Now,
+            };
+
+            _context.Workouts.Add(workout);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException exp)
+            {
+                if (_env.IsDevelopment())
+                {
+                    return StatusCode(500, exp);
+                }
+                else
+                {
+                    return StatusCode(500);
+                }
+            }
+
+            return Ok(workout);
+        }
     }
 }
