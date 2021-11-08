@@ -1,11 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './addWorkoutPage.scss';
+import postRequest from '../../services/postRequest';
+import Error from '../error/error';
+import Loading from '../loading/loading';
+import Success from '../success/success';
 
 export default function AddWorkout() {
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const onError = () => {
+    setError(true);
+    setLoading(false);
+  }
+
+  const onLoading = () => {
+    setLoading(true);
+  }
+
+  const onSuccess = () => {
+    setSuccess(true);
+    setLoading(false);
+    document.location.href = '/';
+  }
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    onLoading();
+    postRequest('/api/workout', data)
+      .then(onSuccess)
+      .catch(onError);
+  }
+
+  const errorMessage = error ? <Error /> : null;
+  const loadingMessage = loading ? <Loading /> : null;
+  const result = !(loading || error) && success ? <Success /> : null;
+
   return (
     <div className="addWorkoutForm-body">
-      <form className="addWorkoutForm">
+      <form className="addWorkoutForm" onSubmit={onSubmit} encType="multipart/form-data">
         <h1 className="addWorkoutForm-title">Workout</h1>
+        {errorMessage}
+        {loadingMessage}
+        {result}
         <div className="addWorkoutForm-block">
           <span className="addWorkoutForm-label">Title</span>
           <input
@@ -34,7 +74,7 @@ export default function AddWorkout() {
             minLength="4"
             maxLength="32"
             className="addWorkoutForm-input"
-            type="email"
+            type="text"
             name="type"
             tabIndex="3"
             required
