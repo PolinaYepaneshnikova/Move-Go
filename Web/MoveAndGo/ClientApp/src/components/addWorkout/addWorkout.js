@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './addWorkoutPage.scss';
-import postRequest from '../../services/postRequest';
+import formRequest from '../../services/formRequest';
 import Error from '../error/error';
 import Loading from '../loading/loading';
 import Success from '../success/success';
@@ -10,9 +10,10 @@ export default function AddWorkout() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const onError = () => {
+  const onError = (data) => {
     setError(true);
     setLoading(false);
+    console.log(data)
   }
 
   const onLoading = () => {
@@ -29,8 +30,9 @@ export default function AddWorkout() {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
+    console.log(data);
     onLoading();
-    postRequest('/api/workout', data)
+    formRequest('/api/workout', data)
       .then(onSuccess)
       .catch(onError);
   }

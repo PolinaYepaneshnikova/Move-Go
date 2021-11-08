@@ -94,10 +94,10 @@ namespace MoveAndGo.Controllers
 
             //    return BadRequest(ModelState);
             //}
-
+            Console.WriteLine("Hello World");
             string id = Guid.NewGuid().ToString();
             string fileName = id + ".mp4";
-            string filePath = Path.Combine(_env.ContentRootPath, "ResourceFiles/Avatars/" + fileName);
+            string filePath = Path.Combine(_env.ContentRootPath, "ResourceFiles/Videos/" + fileName);
 
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
