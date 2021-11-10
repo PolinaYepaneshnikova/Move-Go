@@ -47,6 +47,11 @@ export default function CardWorkout() {
           <div className='card__btns'>
             <i className="far fa-star card__btns-btn"></i>
             <i className="far fa-flag card__btns-btn"></i>
+            {
+              localStorage.getItem('nickname') === 'admin' ?
+                <i className="far fa-trash-alt card__btns-btn"></i> :
+                null
+            }
           </div>
           <div className='card__filter'>
             <span className='card__filter-span'>Type: {typeId}</span>

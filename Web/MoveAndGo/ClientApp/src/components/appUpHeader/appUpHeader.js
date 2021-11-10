@@ -11,6 +11,11 @@ export default function AppUpHeader() {
       <div className='appUpHeader__menu'>
         <NavLink to='/' className='appUpHeader__menu-link'><i className="fas fa-home appUpHeader__menu-link"></i></NavLink>
         <NavLink to='/add' className='appUpHeader__menu-link'><i className="far fa-plus-square appUpHeader__menu-link"></i></NavLink>
+        {
+          localStorage.getItem('nickname') === 'admin' ?
+            <NavLink to='/complaints' className='appUpHeader__menu-link'><i className="fas fa-flag appUpHeader__menu-link"></i></NavLink> :
+            null
+        }
         <NavLink to='/profile' className='appUpHeader__menu-link'><img src={avatar} alt="photo_user" className='appUpHeader__menu-photo' /></NavLink>
       </div>
     </header>
