@@ -150,5 +150,16 @@ namespace MoveAndGo.Controllers
 
             return Ok(user);
         }
+
+        [Authorize]
+        [HttpGet("{nickname}")]
+        public async Task<IActionResult> GetUser(string nickname)
+        {
+            User user = await _manager.FindByNameAsync(nickname);
+            user.Avatar = avatarRoute + user.Avatar;
+            user.PasswordHash = null;
+
+            return Ok(user);
+        }
     }
 }
