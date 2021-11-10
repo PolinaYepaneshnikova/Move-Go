@@ -10,6 +10,7 @@ import './app.scss';
 import AppUpHeader from '../appUpHeader/appUpHeader';
 import ProfilePage from '../profilePage/profilePage';
 import EditPage from '../editPage/editPage';
+import ComplaintPage from '../complaintPage/complaintPage';
 
 const App = () => {
   return (
@@ -37,6 +38,9 @@ const App = () => {
           </Route>
           <Route exact path='/edit'>
             <EditPage />
+          </Route>
+          <Route exact path='/complaints'>
+            <ComplaintPage />
           </Route>
         </Switch>
       </main>
