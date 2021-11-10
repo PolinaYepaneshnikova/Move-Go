@@ -86,7 +86,7 @@ namespace MoveAndGo.Controllers
         // POST: api/Workout
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Workout>> PostWorkout(AddWorkoutViewModel model)
+        public async Task<ActionResult<Workout>> PostWorkout([FromForm]AddWorkoutViewModel model)
         {
             //if (model.Video.ContentType != ".mp4")
             //{
@@ -94,7 +94,7 @@ namespace MoveAndGo.Controllers
 
             //    return BadRequest(ModelState);
             //}
-            Console.WriteLine("Hello World");
+
             string id = Guid.NewGuid().ToString();
             string fileName = id + ".mp4";
             string filePath = Path.Combine(_env.ContentRootPath, "ResourceFiles/Videos/" + fileName);
@@ -104,20 +104,23 @@ namespace MoveAndGo.Controllers
                 await model.Video.CopyToAsync(fileStream);
             }
 
-            _context.PostTypes.Add(new PostType() { Type = model.Type });
-            try
+            if ((await _context.PostTypes.ToListAsync()).Find(e => e.Type == model.Type) == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException exp)
-            {
-                if (_env.IsDevelopment())
+                _context.PostTypes.Add(new PostType() { Type = model.Type });
+                try
                 {
-                    return StatusCode(500, exp);
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateException exp)
                 {
-                    return StatusCode(500);
+                    if (_env.IsDevelopment())
+                    {
+                        return StatusCode(500, exp);
+                    }
+                    else
+                    {
+                        return StatusCode(500);
+                    }
                 }
             }
 
@@ -151,7 +154,7 @@ namespace MoveAndGo.Controllers
                 }
             }
 
-            return Ok(workout);
+            return Redirect("/");
         }
     }
 }
