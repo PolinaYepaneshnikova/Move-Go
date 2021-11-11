@@ -43,7 +43,7 @@ export default function AddWorkout() {
 
   return (
     <div className="addWorkoutForm-body">
-      <form className="addWorkoutForm" enctype="multipart/form-data" accesskeymethod="Post" action="/api/workout" method="post">
+      <form className="addWorkoutForm" encType="multipart/form-data" accesskeymethod="Post" action="/api/workout" method="post">
         <h1 className="addWorkoutForm-title">Workout</h1>
         {errorMessage}
         {loadingMessage}
