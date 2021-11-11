@@ -10,6 +10,7 @@ namespace MoveAndGo.Models
 
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<PostType> PostTypes { get; set; }
+        public DbSet<AdminNotification> AdminNotifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
