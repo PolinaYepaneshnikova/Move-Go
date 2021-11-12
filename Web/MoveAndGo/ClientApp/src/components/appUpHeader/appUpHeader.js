@@ -10,8 +10,7 @@ export default function AppUpHeader() {
   useEffect(() => avatarUser(), []);
 
   const onSuccess = (data) => {
-    setData(data);
-    console.log(data);
+    setData(data?.avatar);
   }
 
   const avatarUser = () => {
@@ -39,7 +38,7 @@ export default function AppUpHeader() {
             <NavLink to='/complaints' className='appUpHeader__menu-link'><i className="fas fa-flag appUpHeader__menu-link"></i></NavLink> :
             null
         }
-        <NavLink to='/profile' className='appUpHeader__menu-link'><img src={data?.avatar ?? noAvatar} alt="photo_user" className='appUpHeader__menu-photo' /></NavLink>
+        <NavLink to='/profile' className='appUpHeader__menu-link'><img src={data ?? noAvatar} alt="photo_user" className='appUpHeader__menu-photo' /></NavLink>
         <i onClick={() => exit()} className="fas fa-sign-out-alt appUpHeader__menu-link"></i>
       </div>
     </header>

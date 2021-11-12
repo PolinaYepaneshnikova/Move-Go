@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import './editPage.scss';
+import getRequest from "../../services/getRequest";
 
 export default function EditPage() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => currentData(), []);
+
+  const onSuccess = (data) => {
+    setData(data);
+  }
+
+  const currentData = () => {
+    getRequest('/api/account/currentuser')
+      .then(onSuccess);
+  }
   return (
     <div className="editForm-body">
       <form className="editForm">
@@ -25,6 +38,7 @@ export default function EditPage() {
             maxLength="32"
             className="editForm-input"
             type="text"
+            value={data?.fullName ?? ""}
             name="fullname"
             tabIndex="1"
             required
@@ -37,7 +51,7 @@ export default function EditPage() {
             type="text"
             name="nickname"
             tabIndex="2"
-            value={localStorage.getItem('nickname')}
+            value={data?.userName}
             required
           />
         </div>
@@ -49,6 +63,7 @@ export default function EditPage() {
             className="editForm-input editForm-textarea"
             type="text"
             name="bio"
+            value={data?.biographi ?? ""}
             tabIndex="3"
             required
           ></textarea>
@@ -61,6 +76,7 @@ export default function EditPage() {
             className="editForm-input"
             type="email"
             name="email"
+            value={data?.email ?? ""}
             tabIndex="4"
             required
           />
@@ -73,23 +89,12 @@ export default function EditPage() {
             className="editForm-input"
             type="tel"
             name="phonenumber"
+            value={data?.phoneNumber ?? ""}
             tabIndex="5"
             required
           />
         </div>
-        <div className="editForm-block">
-          <span className="editForm-label">Gender</span>
-          <input
-            minLength="4"
-            maxLength="200"
-            className="editForm-input"
-            type="text"
-            name="gender"
-            tabIndex="6"
-            required
-          />
-        </div>
-        <button className="editForm-btn" tabIndex="7">Submit</button>
+        <button className="editForm-btn" tabIndex="6">Submit</button>
       </form>
     </div>
   );

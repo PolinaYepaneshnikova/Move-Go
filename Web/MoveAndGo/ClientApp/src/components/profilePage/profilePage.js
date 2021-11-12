@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './profilePage.scss';
 import { Link } from "react-router-dom";
-import avatar from '../../img/profile-no-photo.png';
+import noAvatar from '../../img/profile-no-photo.png';
+import getRequest from '../../services/getRequest';
 
 export default function ProfilePage() {
   const [active, setActive] = useState(1);
+  const [data, setData] = useState(null);
+
+  useEffect(() => currentData(), []);
+
+  const onSuccess = (data) => {
+    setData(data);
+  }
+
+  const currentData = () => {
+    getRequest('/api/account/currentuser')
+      .then(onSuccess)
+  }
 
   const tabItem = [
     {
@@ -41,11 +54,11 @@ export default function ProfilePage() {
     <div className='profile'>
       <div className='profile__person'>
         <div className='profile__person-photo'>
-          <img src={avatar} alt="avatar" className='profile__person-photo__avatar' />
+          <img src={data?.avatar ?? noAvatar} alt="avatar" className='profile__person-photo__avatar' />
         </div>
         <div className='profile__person-info'>
           <div className='profile__person-info__nickname'>
-            <span className='profile__person-info__nickname-nick'>{localStorage.getItem('nickname')}</span>
+            <span className='profile__person-info__nickname-nick'>{data?.userName}</span>
             <Link to='/edit' className='profile__person-info__nickname-edit'>Edit Profile</Link>
           </div>
           <div className='profile__person-info__count'>
@@ -53,6 +66,12 @@ export default function ProfilePage() {
             <span className='profile__person-info__count-span'>0 followers</span>
             <span className='profile__person-info__count-span'>0 following</span>
           </div>
+          <span className='profile__person-info__fullName'>{data?.fullName ?? ""}</span>
+          <div className='profile__person-info__emailNumber'>
+            <span className='profile__person-info__emailNumber-email'>{data?.email}</span>
+            <span className='profile__person-info__emailNumber-number'>{data?.phoneNumber ?? ""}</span>
+          </div>
+          <span className='profile__person-info__bio'>{data?.biographi ?? ""}</span>
         </div>
       </div>
       <div className='profile__posts'>

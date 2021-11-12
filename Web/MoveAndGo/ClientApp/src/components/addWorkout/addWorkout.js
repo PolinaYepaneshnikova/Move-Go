@@ -10,10 +10,9 @@ export default function AddWorkout() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const onError = (data) => {
+  const onError = () => {
     setError(true);
     setLoading(false);
-    console.log(data)
   }
 
   const onLoading = () => {
@@ -84,15 +83,16 @@ export default function AddWorkout() {
         </div>
         <div className="addWorkoutForm-block">
           <span className="addWorkoutForm-label">Level</span>
-          <input
-            minLength="4"
-            maxLength="32"
-            className="addWorkoutForm-input"
-            type="text"
+          <select
             name="level"
+            className="addWorkoutForm-input"
             tabIndex="4"
             required
-          />
+          >
+            <option value='Easy'>Easy</option>
+            <option value='Medium'>Medium</option>
+            <option value='Hard'>Hard</option>
+          </select>
         </div>
         <div className="addWorkoutForm-block">
           <span className="addWorkoutForm-label">Description</span>

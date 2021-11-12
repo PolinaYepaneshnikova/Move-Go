@@ -17,7 +17,6 @@ export default function CardWorkout() {
 
   const onLoadedData = (data) => {
     setDataWorkout(data);
-    console.log(data);
     setLoading(false);
   }
 
