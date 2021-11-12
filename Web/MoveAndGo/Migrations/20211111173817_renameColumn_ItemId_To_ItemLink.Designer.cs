@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoveAndGo.Models;
 
 namespace MoveAndGo.Migrations
 {
     [DbContext(typeof(MoveAndGoContext))]
-    partial class MoveAndGoContextModelSnapshot : ModelSnapshot
+    [Migration("20211111173817_renameColumn_ItemId_To_ItemLink")]
+    partial class renameColumn_ItemId_To_ItemLink
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,16 +148,11 @@ namespace MoveAndGo.Migrations
 
             modelBuilder.Entity("MoveAndGo.Models.AdminNotification", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ItemLink")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Text")
                         .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
 
                     b.ToTable("AdminNotifications");
                 });
