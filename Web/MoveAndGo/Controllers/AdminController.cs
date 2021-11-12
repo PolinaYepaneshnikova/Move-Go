@@ -96,5 +96,67 @@ namespace MoveAndGo.Controllers
 
             return BadRequest(ModelState);
         }
+
+        public record DeleteBody(string link);
+
+        // DELETE: api/Admin/Delete
+        /*let data = { link: "/workout/c54b66e1-eba0-4942-b77b-5754c472c969" }
+        let resp = await fetch("/api/admin/delete", {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        } )*/
+        //resp.ok
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody] DeleteBody body)
+        {
+            if (User.Identity.Name != "admin")
+            {
+                return StatusCode(403, "You are not admin");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string link = body.link,
+                   lowerLink = link.ToLower(),
+                   id = link.Substring(link.LastIndexOf("/") + 1);
+
+
+            if (lowerLink.StartsWith("/workout/"))
+            {
+                var workout = await _context.Workouts.FindAsync(id);
+                if (workout == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Workouts.Remove(workout);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            else if (lowerLink.StartsWith("/article/"))
+            {
+                //var article = await _context.Articles.FindAsync(id);
+                //if (article == null)
+                //{
+                //    return NotFound();
+                //}
+
+                //_context.Articles.Remove(article);
+                //await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            else
+            {
+                ModelState.AddModelError(nameof(link), "link is not began by \"/workout/\" or \"/article/\"");
+
+                return BadRequest(ModelState);
+            }
+        }
     }
 }
