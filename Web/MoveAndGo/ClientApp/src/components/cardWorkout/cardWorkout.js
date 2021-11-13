@@ -39,24 +39,33 @@ export default function CardWorkout() {
   }
 
   const userComplaint = (id) => {
-    let complaint = prompt('What is the reason for the complaint?', '');
-    let data = { itemLink: `/workout/${id}`, text: complaint };
-    postRequest("/api/admin/complain", data)
-      .then(() => alert('Your complaint has been sent for consideration by the administration!'))
-      .catch(() => alert('Sorry, there was an error submitting your complaint!'));
+    let ask = confirm('Do you want to report this post?');
+    if (ask) {
+      let complaint = prompt('What is the reason for the complaint?', '');
+      let data = { itemLink: `/workout/${id}`, text: complaint };
+      postRequest("/api/admin/complain", data)
+        .then(() => alert('Your complaint has been sent for consideration by the administration!'))
+        .catch(() => alert('Sorry, there was an error submitting your complaint!'))
+    }
+    else {
+      alert("Post complaint has been canceled!");
+    }
   }
 
   const adminDeletePost = (id) => {
     let ask = confirm('Are you sure you want to delete the post?');
-    let data = { link: `/workout/${id}` };
-    ask ?
+    if (ask) {
+      let data = { link: `/workout/${id}` };
       deleteRequest("/api/admin/delete", data)
         .then(() => {
           alert('The post has been successfully deleted!');
           document.location.href = '/';
         })
-        .catch(() => alert('An error has occurred!')) :
+        .catch(() => alert('An error has occurred!'));
+    }
+    else {
       alert("Post deletion has been canceled!");
+    }
   }
 
   const renderItem = (arr) => {
