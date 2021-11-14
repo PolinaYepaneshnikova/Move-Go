@@ -1,52 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './addWorkoutPage.scss';
-import formRequest from '../../services/formRequest';
-import Error from '../error/error';
-import Loading from '../loading/loading';
-import Success from '../success/success';
+import getRequest from '../../services/getRequest';
 
 export default function AddWorkout() {
-  const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [types, setTypes] = useState([]);
 
-  const onError = () => {
-    setError(true);
-    setLoading(false);
+  useEffect(() => typesWorkout(), []);
+
+  const onSuccess = (data) => {
+    setTypes(data);
   }
 
-  const onLoading = () => {
-    setLoading(true);
+  const typesWorkout = () => {
+    getRequest('/api/workout/getposttypes')
+      .then(onSuccess);
   }
-
-  const onSuccess = () => {
-    setSuccess(true);
-    setLoading(false);
-    document.location.href = '/';
-  }
-
-  const onSubmit = (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
-    onLoading();
-    formRequest('/api/workout', data)
-      .then(onSuccess)
-      .catch(onError);
-  }
-
-  const errorMessage = error ? <Error /> : null;
-  const loadingMessage = loading ? <Loading /> : null;
-  const result = !(loading || error) && success ? <Success /> : null;
 
   return (
     <div className="addWorkoutForm-body">
       <form className="addWorkoutForm" encType="multipart/form-data" accesskeymethod="Post" action="/api/workout" method="post">
         <h1 className="addWorkoutForm-title">Workout</h1>
-        {errorMessage}
-        {loadingMessage}
-        {result}
         <div className="addWorkoutForm-block">
           <span className="addWorkoutForm-label">Title</span>
           <input
@@ -72,14 +45,24 @@ export default function AddWorkout() {
         <div className="addWorkoutForm-block">
           <span className="addWorkoutForm-label">Type</span>
           <input
-            minLength="4"
-            maxLength="32"
-            className="addWorkoutForm-input"
-            type="text"
-            name="type"
-            tabIndex="3"
+            className='addWorkoutForm-input'
+            type='text'
+            list='types'
+            name='type'
+            tabIndex='3'
             required
           />
+          <datalist
+            id='types'
+          >
+            {
+              types.map((item, i) => {
+                return (
+                  <option key={i} value={item?.type ?? ""}>{item?.type ?? ""}</option>
+                );
+              })
+            }
+          </datalist>
         </div>
         <div className="addWorkoutForm-block">
           <span className="addWorkoutForm-label">Level</span>
