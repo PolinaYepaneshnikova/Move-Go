@@ -162,35 +162,68 @@ namespace MoveAndGo.Controllers
             return Ok(user);
         }
 
+        /* Если убрать аттрибут [FromForm], то вылезет ошибка 415 unsupported media type */
         [Authorize]
-        [HttpPut]
-        public async Task<IActionResult> EditProfile(EditProfileViewModel model)
+        [HttpPost]
+        public async Task<IActionResult> EditProfile([FromForm] EditProfileViewModel model)
         {
+            IdentityResult result;
+            User user = await _manager.GetUserAsync(HttpContext.User);
+
             if (ModelState.IsValid)
             {
-                User user = new User
-                {
-                    FullName = model.FullName,
-                    Biographi = model.Bio,
-                    Email = model.Email,
-                    PhoneNumber = model.Phone,
-                };
+                bool isPasswordRight = await _manager.CheckPasswordAsync(user, model.OldPassword);
 
-                var result = await _manager.CreateAsync(user, model.OldPassword);
-                if (result.Succeeded)
+                if (!isPasswordRight)
                 {
-                    // установка куки
-                    await _signInManager.SignInAsync(user, false);
+                    ModelState.AddModelError(nameof(EditProfileViewModel.OldPassword), "Uncorrect");
+
+                    return BadRequest(ModelState);
                 }
-                else
+
+
+
+
+                if (model.NewPassword != null)
+                {
+
+                    var _passwordValidator =
+                        HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
+                    var _passwordHasher =
+                        HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+
+                    result =
+                        await _passwordValidator.ValidateAsync(_manager, user, model.NewPassword);
+
+                    if (result.Succeeded)
+                    {
+                        user.PasswordHash = _passwordHasher.HashPassword(user, model.NewPassword);
+                        await _manager.UpdateAsync(user);
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+
+                user.FullName = model.FullName;
+                user.Biographi = model.Bio;
+                user.Email = model.Email;
+                user.PhoneNumber = model.Phone;
+
+                result = await _manager.UpdateAsync(user);
+
+                if (!result.Succeeded)
                 {
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
-
-                        return BadRequest(ModelState);
                     }
                 }
+
 
 
 
@@ -198,6 +231,10 @@ namespace MoveAndGo.Controllers
                 {
                     try
                     {
+                        string old_path = Path.Combine(_env.ContentRootPath, "ResourceFiles/Avatars/" + user.Avatar);
+
+                        System.IO.File.Delete(old_path);
+
                         string type = model.Avatar.ContentType;
                         string file_name = User.Identity.Name + "." + type[(type.IndexOf('/') + 1)..];
 
@@ -209,24 +246,20 @@ namespace MoveAndGo.Controllers
                         }
 
 
-
                         user.Avatar = file_name;
 
                         result = await _manager.UpdateAsync(user);
 
-                        if (!result.Succeeded) throw new ApplicationException("failed to load avatar");
+                        if (!result.Succeeded) throw new ApplicationException("Failed to load avatar");
                     }
                     catch
                     {
-
+                        ModelState.AddModelError(nameof(EditProfileViewModel.Avatar), "Failed to load avatar");
                     }
                 }
-
-
-                return Redirect("/profile");
             }
 
-            return BadRequest(ModelState);
+            return Redirect("/");
         }
     }
 }
