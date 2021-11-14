@@ -25,10 +25,6 @@ namespace MoveAndGo.Models.ViewModels
         [Display(Name = "Phone")]
         public string Phone { get; set; }
 
-        [UIHint("OldPassword")]
-        [Display(Name = "OldPassword")]
-        public string OldPassword { get; set; }
-
         [UIHint("NewPassword")]
         [Display(Name = "NewPassword")]
         public string NewPassword { get; set; }
@@ -37,5 +33,9 @@ namespace MoveAndGo.Models.ViewModels
         [UIHint("NewPassword")]
         [Compare("NewPassword", ErrorMessage = "Password mismatch")]
         public string ConfirmNewPassword { get; set; }
+
+        [UIHint("OldPassword")]
+        [Display(Name = "OldPassword")]
+        public string OldPassword { get; set; }
     }
 }
