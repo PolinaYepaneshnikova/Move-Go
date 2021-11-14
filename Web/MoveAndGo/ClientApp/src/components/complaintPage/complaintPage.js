@@ -26,7 +26,7 @@ export default function ComplaintPage() {
             return (
               <li className='complaint__list-item' key={item?.id}>
                 <span className='complaint__list-item__text'><b>URL</b></span>
-                <a href={`/api${item?.itemLink}`} className='complaint__list-item__link'>{`https://localhost:5001/api${item?.itemLink}`}</a>
+                <a href={`/api${item?.itemLink}`} className='complaint__list-item__link'>{`/api${item?.itemLink}`}</a>
                 <span className='complaint__list-item__text'><b>Text</b></span>
                 <span className='complaint__list-item__text'>{item?.text ?? ""}</span>
               </li>

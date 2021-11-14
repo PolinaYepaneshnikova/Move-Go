@@ -231,9 +231,13 @@ namespace MoveAndGo.Controllers
                 {
                     try
                     {
-                        string old_path = Path.Combine(_env.ContentRootPath, "ResourceFiles/Avatars/" + user.Avatar);
+                        try
+                        {
+                            string old_path = Path.Combine(_env.ContentRootPath, "ResourceFiles/Avatars/" + user.Avatar);
 
-                        System.IO.File.Delete(old_path);
+                            System.IO.File.Delete(old_path);
+                        }
+                        catch { }
 
                         string type = model.Avatar.ContentType;
                         string file_name = User.Identity.Name + "." + type[(type.IndexOf('/') + 1)..];
