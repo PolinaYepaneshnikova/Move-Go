@@ -14,219 +14,252 @@ using System;
 
 namespace MoveAndGo.Controllers
 {
-  [Route("api/[controller]/[action]")]
-  [ApiController]
-  public class AccountController : Controller
-  {
-    private readonly UserManager<User> _manager;
-    private readonly SignInManager<User> _signInManager;
-    private readonly IWebHostEnvironment _env;
-    private readonly MoveAndGoContext _context;
-    public AccountController
-        (UserManager<User> userMgr, SignInManager<User> signinMgr, IWebHostEnvironment env, MoveAndGoContext context)
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class AccountController : Controller
     {
-      _manager = userMgr;
-      _signInManager = signinMgr;
-      _env = env;
-      _context = context;
-    }
-
-
-
-    private readonly string avatarRoute = "/api/media/avatar/";
-
-    /*let data = { email: "serhii.cherevan@nure.ua", fullname: "Sergey Cherevan", nickname: "Ageris", password: "12345", confirmpassword: "12345" }
-    let resp = await fetch("/api/account/registration", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    } )*/
-    //await resp.json()
-    [HttpPost]
-    [AllowAnonymous]
-    public async Task<IActionResult> Registration(RegistrationViewModel model)
-    {
-      /*if (User.Identity.IsAuthenticated)
-      {
-          return StatusCode(403, "You are not anonymous");
-      }*/
-
-      if (ModelState.IsValid)
-      {
-        User user = new User
+        private readonly UserManager<User> _manager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IWebHostEnvironment _env;
+        private readonly MoveAndGoContext _context;
+        public AccountController
+            (UserManager<User> userMgr, SignInManager<User> signinMgr, IWebHostEnvironment env, MoveAndGoContext context)
         {
-          Email = model.Email,
-          FullName = model.FullName,
-          UserName = model.Nickname,
-        };
-
-        var result = await _manager.CreateAsync(user, model.Password);
-        if (result.Succeeded)
-        {
-          // установка куки
-          await _signInManager.SignInAsync(user, false);
-
-          user.PasswordHash = null;
-          return Ok(user);
-        }
-        else
-        {
-          if (_env.IsDevelopment())
-          {
-            return StatusCode(500, result.Errors);
-          }
-          else
-          {
-            return StatusCode(500);
-          }
-        }
-      }
-
-      return BadRequest(ModelState);
-    }
-
-    /*let data = { nickname: "Ageris", password: "12345" }
-    let resp = await fetch("/api/account/login", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    } )*/
-    //await resp.json()
-    [HttpPost]
-    [AllowAnonymous]
-    public async Task<IActionResult> Login(LoginViewModel model)
-    {
-      /*if (User.Identity.IsAuthenticated)
-      {
-          return StatusCode(403, "You are not anonymous");
-      }*/
-
-      if (ModelState.IsValid)
-      {
-        User user = await _manager.FindByNameAsync(model.Nickname);
-        if (user != null)
-        {
-          await _signInManager.SignOutAsync();
-
-          Microsoft.AspNetCore.Identity.SignInResult result
-              = await _signInManager.PasswordSignInAsync(model.Nickname, model.Password, false, false);
-
-          if (result.Succeeded)
-          {
-            user.PasswordHash = null;
-            return Ok(user);
-          }
-        }
-
-        return BadRequest("Wrong login or password");
-      }
-
-      return BadRequest(ModelState);
-    }
-
-    /*let resp = await fetch("/api/account/logout", {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    } )*/
-    //await resp.text()
-    [Authorize]
-    public async Task<IActionResult> Logout()
-    {
-      await _signInManager.SignOutAsync();
-
-      return Ok("You are logged out");
-    }
-
-    public async Task<IActionResult> CurrentUser()
-    {
-      if (User?.Identity?.IsAuthenticated != true)
-      {
-        return Unauthorized();
-      }
-
-      User user = await _manager.FindByNameAsync(User.Identity.Name);
-      user.Avatar = user.Avatar == null ? null : avatarRoute + user.Avatar;
-      user.PasswordHash = null;
-
-      return Ok(user);
-    }
-
-    [Authorize]
-    [HttpGet("{nickname}")]
-    public async Task<IActionResult> GetUser(string nickname)
-    {
-      User user = await _manager.FindByNameAsync(nickname);
-      user.Avatar = user.Avatar == null ? null : avatarRoute + user.Avatar;
-      user.PasswordHash = null;
-
-      return Ok(user);
-    }
-
-    [Authorize]
-    [HttpPost]
-    public async Task<IActionResult> EditProfile(EditProfileViewModel model)
-    {
-      if (ModelState.IsValid)
-      {
-        User user = new User
-        {
-          FullName = model.FullName,
-          Biographi = model.Bio,
-          Email = model.Email,
-          PhoneNumber = model.Phone,
-        };
-
-        var result = await _manager.CreateAsync(user, model.OldPassword);
-        if (result.Succeeded)
-        {
-          // установка куки
-          await _signInManager.SignInAsync(user, false);
-        }
-        else
-        {
-          foreach (var error in result.Errors)
-          {
-            ModelState.AddModelError(string.Empty, error.Description);
-
-            return BadRequest(ModelState);
-          }
+            _manager = userMgr;
+            _signInManager = signinMgr;
+            _env = env;
+            _context = context;
         }
 
 
 
-        if (model.Avatar != null)
+        private readonly string avatarRoute = "/api/media/avatar/";
+
+        /*let data = { email: "serhii.cherevan@nure.ua", fullname: "Sergey Cherevan", nickname: "Ageris", password: "12345", confirmpassword: "12345" }
+        let resp = await fetch("/api/account/registration", {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        } )*/
+        //await resp.json()
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Registration(RegistrationViewModel model)
         {
-          try
-          {
-            string type = model.Avatar.ContentType;
-            string file_name = User.Identity.Name + "." + type[(type.IndexOf('/') + 1)..];
-
-            string file_path = Path.Combine(_env.ContentRootPath, "ResourceFiles/Avatars/" + file_name);
-
-            using (var fileStream = new FileStream(file_path, FileMode.Create))
+            /*if (User.Identity.IsAuthenticated)
             {
-              await model.Avatar.CopyToAsync(fileStream);
+                return StatusCode(403, "You are not anonymous");
+            }*/
+
+            if (ModelState.IsValid)
+            {
+                User user = new User
+                {
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    UserName = model.Nickname,
+                };
+
+                var result = await _manager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    // установка куки
+                    await _signInManager.SignInAsync(user, false);
+
+                    user.PasswordHash = null;
+                    return Ok(user);
+                }
+                else
+                {
+                    if (_env.IsDevelopment())
+                    {
+                        return StatusCode(500, result.Errors);
+                    }
+                    else
+                    {
+                        return StatusCode(500);
+                    }
+                }
             }
 
-
-
-            user.Avatar = file_name;
-
-            result = await _manager.UpdateAsync(user);
-
-            if (!result.Succeeded) throw new ApplicationException("failed to load avatar");
-          }
-          catch
-          {
-
-          }
+            return BadRequest(ModelState);
         }
 
+        /*let data = { nickname: "Ageris", password: "12345" }
+        let resp = await fetch("/api/account/login", {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        } )*/
+        //await resp.json()
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            /*if (User.Identity.IsAuthenticated)
+            {
+                return StatusCode(403, "You are not anonymous");
+            }*/
 
-        return Redirect("/profile");
-      }
+            if (ModelState.IsValid)
+            {
+                User user = await _manager.FindByNameAsync(model.Nickname);
+                if (user != null)
+                {
+                    await _signInManager.SignOutAsync();
 
-      return BadRequest(ModelState);
+                    Microsoft.AspNetCore.Identity.SignInResult result
+                        = await _signInManager.PasswordSignInAsync(model.Nickname, model.Password, false, false);
+
+                    if (result.Succeeded)
+                    {
+                        user.PasswordHash = null;
+                        return Ok(user);
+                    }
+                }
+
+                return BadRequest("Wrong login or password");
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        /*let resp = await fetch("/api/account/logout", {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        } )*/
+        //await resp.text()
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return Ok("You are logged out");
+        }
+
+        public async Task<IActionResult> CurrentUser()
+        {
+            if (User?.Identity?.IsAuthenticated != true)
+            {
+                return Unauthorized();
+            }
+
+            User user = await _manager.FindByNameAsync(User.Identity.Name);
+            user.Avatar = user.Avatar == null ? null : avatarRoute + user.Avatar;
+            user.PasswordHash = null;
+
+            return Ok(user);
+        }
+
+        [Authorize]
+        [HttpGet("{nickname}")]
+        public async Task<IActionResult> GetUser(string nickname)
+        {
+            User user = await _manager.FindByNameAsync(nickname);
+            user.Avatar = user.Avatar == null ? null : avatarRoute + user.Avatar;
+            user.PasswordHash = null;
+
+            return Ok(user);
+        }
+
+        /* Если убрать аттрибут [FromForm], то вылезет ошибка 415 unsupported media type */
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> EditProfile([FromForm] EditProfileViewModel model)
+        {
+            IdentityResult result;
+            User user = await _manager.GetUserAsync(HttpContext.User);
+
+            if (ModelState.IsValid)
+            {
+                bool isPasswordRight = await _manager.CheckPasswordAsync(user, model.OldPassword);
+
+                if (!isPasswordRight)
+                {
+                    ModelState.AddModelError(nameof(EditProfileViewModel.OldPassword), "Uncorrect");
+
+                    return BadRequest(ModelState);
+                }
+
+
+
+
+                if (model.NewPassword != null)
+                {
+
+                    var _passwordValidator =
+                        HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
+                    var _passwordHasher =
+                        HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+
+                    result =
+                        await _passwordValidator.ValidateAsync(_manager, user, model.NewPassword);
+
+                    if (result.Succeeded)
+                    {
+                        user.PasswordHash = _passwordHasher.HashPassword(user, model.NewPassword);
+                        await _manager.UpdateAsync(user);
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+
+                user.FullName = model.FullName;
+                user.Biographi = model.Bio;
+                user.Email = model.Email;
+                user.PhoneNumber = model.Phone;
+
+                result = await _manager.UpdateAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+
+
+
+
+                if (model.Avatar != null)
+                {
+                    try
+                    {
+                        string old_path = Path.Combine(_env.ContentRootPath, "ResourceFiles/Avatars/" + user.Avatar);
+
+                        System.IO.File.Delete(old_path);
+
+                        string type = model.Avatar.ContentType;
+                        string file_name = User.Identity.Name + "." + type[(type.IndexOf('/') + 1)..];
+
+                        string file_path = Path.Combine(_env.ContentRootPath, "ResourceFiles/Avatars/" + file_name);
+
+                        using (var fileStream = new FileStream(file_path, FileMode.Create))
+                        {
+                            await model.Avatar.CopyToAsync(fileStream);
+                        }
+
+
+                        user.Avatar = file_name;
+
+                        result = await _manager.UpdateAsync(user);
+
+                        if (!result.Succeeded) throw new ApplicationException("Failed to load avatar");
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError(nameof(EditProfileViewModel.Avatar), "Failed to load avatar");
+                    }
+                }
+            }
+
+            return Redirect("/");
+        }
     }
-  }
 }

@@ -27,7 +27,6 @@ export default function EditPage() {
             type="file"
             name="avatar"
             tabIndex="1"
-            defaultValue={data?.avatar}
           />
         </div>
         <div className="editForm-block">
@@ -108,6 +107,7 @@ export default function EditPage() {
             type="password"
             name="oldpassword"
             tabIndex="8"
+            required
           />
         </div>
         <button className="editForm-btn" tabIndex="9">Submit</button>
