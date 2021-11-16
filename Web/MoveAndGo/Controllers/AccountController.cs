@@ -212,7 +212,7 @@ namespace MoveAndGo.Controllers
                 user.FullName = model.FullName;
                 user.Biographi = model.Bio;
                 user.Email = model.Email;
-                user.PhoneNumber = model.Phone;
+                user.PhoneNumber = model.PhoneNumber;
 
                 result = await _manager.UpdateAsync(user);
 

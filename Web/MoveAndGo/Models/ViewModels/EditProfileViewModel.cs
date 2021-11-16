@@ -21,9 +21,9 @@ namespace MoveAndGo.Models.ViewModels
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [UIHint("Phone")]
-        [Display(Name = "Phone")]
-        public string Phone { get; set; }
+        [UIHint("PhoneNumber")]
+        [Display(Name = "PhoneNumber")]
+        public string PhoneNumber { get; set; }
 
         [UIHint("NewPassword")]
         [Display(Name = "NewPassword")]
