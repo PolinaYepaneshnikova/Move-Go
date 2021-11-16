@@ -19,6 +19,7 @@ namespace MoveAndGo.Controllers
 {
     [Authorize]
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class WorkoutController : Controller
     {
         private readonly UserManager<User> _manager;
@@ -36,10 +37,9 @@ namespace MoveAndGo.Controllers
             avatarRoute = "/api/media/avatar/",
             videoRoute = "/api/media/video/";
 
-        // GET: api/Workout
+        // GET: api/Workout/Get
         [HttpGet]
-        [Route("api/[controller]")]
-        public async Task<ActionResult<IEnumerable<Object>>> GetWorkouts()
+        public async Task<ActionResult<IEnumerable<Object>>> Get()
         {
 
 
@@ -64,10 +64,9 @@ namespace MoveAndGo.Controllers
             ).Select(e => e.Result).Reverse());
         }
 
-        // GET: api/Workout/5
+        // GET: api/Workout/Get1/5
         [HttpGet("{id}")]
-        [Route("api/[controller]/{id}")]
-        public async Task<ActionResult<Object>> GetWorkout(string id)
+        public async Task<ActionResult<Object>> Get1(string id)
         {
             var workout = await _context.Workouts.FindAsync(id);
 
@@ -94,17 +93,15 @@ namespace MoveAndGo.Controllers
 
         // GET: api/Workout/GetPostTypes
         [HttpGet]
-        [Route("api/[controller]/[action]")]
         public async Task<ActionResult<Object>> GetPostTypes()
         {
             return new ObjectResult(await _context.PostTypes.ToListAsync());
         }
 
-        // POST: api/Workout
+        // POST: api/Workout/Post
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Route("api/[controller]")]
-        public async Task<ActionResult<Workout>> PostWorkout([FromForm] AddWorkoutViewModel model)
+        public async Task<ActionResult<Workout>> Post([FromForm] AddWorkoutViewModel model)
         {
             //if (model.Video.ContentType != ".mp4")
             //{

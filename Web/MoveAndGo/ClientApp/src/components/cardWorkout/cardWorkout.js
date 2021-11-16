@@ -33,13 +33,13 @@ export default function CardWorkout() {
 
   const updateWorkout = () => {
     onLoading();
-    getRequest('/api/workout')
+    getRequest('/api/workout/get')
       .then(onLoadedData)
       .catch(onError);
   }
 
   const userComplaint = (id) => {
-    let ask = confirm('Do you want to report this post?');
+    let ask = window.confirm('Do you want to report this post?');
     if (ask) {
       let complaint = prompt('What is the reason for the complaint?', '');
       let data = { itemLink: `/workout/${id}`, text: complaint };
@@ -53,7 +53,7 @@ export default function CardWorkout() {
   }
 
   const adminDeletePost = (id) => {
-    let ask = confirm('Are you sure you want to delete the post?');
+    let ask = window.confirm('Are you sure you want to delete the post?');
     if (ask) {
       let data = { link: `/workout/${id}` };
       deleteRequest("/api/admin/delete", data)
