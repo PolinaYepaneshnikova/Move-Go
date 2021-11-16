@@ -78,9 +78,7 @@ namespace MoveAndGo
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "api/{controller}/{action}/{id?}");
+                endpoints.MapControllers();
             });
 
             app.UseSpa(spa =>
