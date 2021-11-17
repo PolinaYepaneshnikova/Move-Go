@@ -8,7 +8,7 @@ using MoveAndGo.Models;
 
 namespace MoveAndGo.Migrations
 {
-    [DbContext(typeof(MoveAndGoContext))]
+    [DbContext(typeof(MoveAndGoDbContext))]
     [Migration("20211111173817_renameColumn_ItemId_To_ItemLink")]
     partial class renameColumn_ItemId_To_ItemLink
     {

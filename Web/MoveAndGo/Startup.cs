@@ -23,17 +23,17 @@ namespace MoveAndGo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MoveAndGoContext>(options =>
+            services.AddDbContext<MoveAndGoDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>(options =>
             {
-                options.Password.RequiredLength = 5;   // ����������� �����
-                options.Password.RequireNonAlphanumeric = false;   // ��������� �� �� ���������-�������� �������
-                options.Password.RequireLowercase = false; // ��������� �� ������� � ������ ��������
-                options.Password.RequireUppercase = false; // ��������� �� ������� � ������� ��������
-                options.Password.RequireDigit = false; // ��������� �� �����
-            }).AddEntityFrameworkStores<MoveAndGoContext>();
+                options.Password.RequiredLength = 5; 
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+            }).AddEntityFrameworkStores<MoveAndGoDbContext>();
 
             services.ConfigureApplicationCookie(options =>
             {

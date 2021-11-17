@@ -8,7 +8,7 @@ using MoveAndGo.Models;
 
 namespace MoveAndGo.Migrations
 {
-    [DbContext(typeof(MoveAndGoContext))]
+    [DbContext(typeof(MoveAndGoDbContext))]
     [Migration("20211022115543_initial")]
     partial class initial
     {

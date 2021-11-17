@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MoveAndGo.Models
 {
-    public class MoveAndGoContext : IdentityDbContext<User>
+    public class MoveAndGoDbContext : IdentityDbContext<User>
     {
-        public MoveAndGoContext(DbContextOptions<MoveAndGoContext> options) : base(options) { }
+        public MoveAndGoDbContext(DbContextOptions<MoveAndGoDbContext> options) : base(options) { }
 
 
         public DbSet<Workout> Workouts { get; set; }

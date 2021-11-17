@@ -21,9 +21,9 @@ namespace MoveAndGo.Controllers
         private readonly UserManager<User> _manager;
         private readonly SignInManager<User> _signInManager;
         private readonly IWebHostEnvironment _env;
-        private readonly MoveAndGoContext _context;
+        private readonly MoveAndGoDbContext _context;
         public AccountController
-            (UserManager<User> userMgr, SignInManager<User> signinMgr, IWebHostEnvironment env, MoveAndGoContext context)
+            (UserManager<User> userMgr, SignInManager<User> signinMgr, IWebHostEnvironment env, MoveAndGoDbContext context)
         {
             _manager = userMgr;
             _signInManager = signinMgr;

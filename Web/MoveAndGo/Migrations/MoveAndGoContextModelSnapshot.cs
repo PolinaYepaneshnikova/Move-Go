@@ -7,7 +7,7 @@ using MoveAndGo.Models;
 
 namespace MoveAndGo.Migrations
 {
-    [DbContext(typeof(MoveAndGoContext))]
+    [DbContext(typeof(MoveAndGoDbContext))]
     partial class MoveAndGoContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

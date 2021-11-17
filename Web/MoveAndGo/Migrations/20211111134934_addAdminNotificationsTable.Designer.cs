@@ -8,7 +8,7 @@ using MoveAndGo.Models;
 
 namespace MoveAndGo.Migrations
 {
-    [DbContext(typeof(MoveAndGoContext))]
+    [DbContext(typeof(MoveAndGoDbContext))]
     [Migration("20211111134934_addAdminNotificationsTable")]
     partial class addAdminNotificationsTable
     {

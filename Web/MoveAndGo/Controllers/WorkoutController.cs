@@ -24,9 +24,9 @@ namespace MoveAndGo.Controllers
     {
         private readonly UserManager<User> _manager;
         private readonly IWebHostEnvironment _env;
-        private readonly MoveAndGoContext _context;
+        private readonly MoveAndGoDbContext _context;
         public WorkoutController
-            (UserManager<User> userMgr, IWebHostEnvironment env, MoveAndGoContext context)
+            (UserManager<User> userMgr, IWebHostEnvironment env, MoveAndGoDbContext context)
         {
             _manager = userMgr;
             _env = env;

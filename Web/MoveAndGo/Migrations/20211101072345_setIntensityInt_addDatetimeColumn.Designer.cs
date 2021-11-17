@@ -8,7 +8,7 @@ using MoveAndGo.Models;
 
 namespace MoveAndGo.Migrations
 {
-    [DbContext(typeof(MoveAndGoContext))]
+    [DbContext(typeof(MoveAndGoDbContext))]
     [Migration("20211101072345_setIntensityInt_addDatetimeColumn")]
     partial class setIntensityInt_addDatetimeColumn
     {
