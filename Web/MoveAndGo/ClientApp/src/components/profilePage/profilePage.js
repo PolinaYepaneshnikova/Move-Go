@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 import './profilePage.scss';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import noAvatar from '../../img/profile-no-photo.png';
 import getRequest from '../../services/getRequest';
 
 export default function ProfilePage() {
   const [active, setActive] = useState(1);
   const [data, setData] = useState(null);
+  const { nickname } = useParams();
 
-  useEffect(() => currentData(), []);
+  useEffect(() => currentData(), [nickname]);
 
   const onSuccess = (data) => {
     setData(data);
   }
 
   const currentData = () => {
-    getRequest('/api/account/currentuser')
+    getRequest(`/api/account/getuser/${nickname}`)
       .then(onSuccess)
   }
 
@@ -59,7 +60,11 @@ export default function ProfilePage() {
         <div className='profile__person-info'>
           <div className='profile__person-info__nickname'>
             <span className='profile__person-info__nickname-nick'>{data?.userName}</span>
-            <Link to='/edit' className='profile__person-info__nickname-edit'>Edit Profile</Link>
+            {
+              localStorage.getItem('nickname') == nickname ?
+                <Link to='/edit' className='profile__person-info__nickname-edit'>Edit Profile</Link> :
+                null
+            }
           </div>
           <div className='profile__person-info__count'>
             <span className='profile__person-info__count-span'>0 posts</span>

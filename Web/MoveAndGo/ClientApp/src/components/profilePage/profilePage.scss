@@ -14,10 +14,11 @@
       align-items: center;
 
       &__avatar {
+        border: 2px solid #c4c4c4;
+        border-radius: 50%;
         height: 150px;
         width: 150px;
-        border-radius: 50%;
-        border: 2px solid #c4c4c4;
+        object-fit: cover;
       }
     }
     &-info {

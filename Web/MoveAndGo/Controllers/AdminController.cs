@@ -91,7 +91,7 @@ namespace MoveAndGo.Controllers
                     }
                 }
 
-                return CreatedAtAction("GetAdminNotification", new { id = notification.ItemLink }, notification);
+                return Ok(notification);
             }
 
             return BadRequest(ModelState);

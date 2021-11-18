@@ -99,7 +99,7 @@ export default function CardWorkout() {
           </div>
           <p className='card-desc'>{item?.text}</p>
           <div className='card__info'>
-            <Link to='/' className='card__info-link'><img className='card__info-img' src={item?.authorAvatar ?? noAvatar} alt="avatar" /> <span className='card__info-nickname'>{item?.author}</span></Link>
+            <Link to={`/profile/${item?.author}`} className='card__info-link'><img className='card__info-img' src={item?.authorAvatar ?? noAvatar} alt="avatar" /> <span className='card__info-nickname'>{item?.author}</span></Link>
             <span className='card__info-time'>{new Date(item?.datetime).toLocaleString()}</span>
           </div>
         </li>

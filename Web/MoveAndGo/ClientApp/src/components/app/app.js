@@ -11,6 +11,7 @@ import AppUpHeader from '../appUpHeader/appUpHeader';
 import ProfilePage from '../profilePage/profilePage';
 import EditPage from '../editPage/editPage';
 import ComplaintPage from '../complaintPage/complaintPage';
+import SingleCardWorkout from '../singleCardWorkout/singleCardWorkout';
 
 const App = () => {
   return (
@@ -33,14 +34,17 @@ const App = () => {
           <Route exact path='/addWorkout'>
             <AddWorkout />
           </Route>
-          <Route exact path='/profile'>
-            <ProfilePage />
-          </Route>
           <Route exact path='/edit'>
             <EditPage />
           </Route>
+          <Route exact path='/profile/:nickname'>
+            <ProfilePage />
+          </Route>
           <Route exact path='/complaints'>
             <ComplaintPage />
+          </Route>
+          <Route exact path='/workout/:id'>
+            <SingleCardWorkout />
           </Route>
         </Switch>
       </main>
