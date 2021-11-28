@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoveAndGo.Models;
 
 namespace MoveAndGo.Migrations
 {
     [DbContext(typeof(MoveAndGoDbContext))]
-    partial class MoveAndGoContextModelSnapshot : ModelSnapshot
+    [Migration("20211128021028_addIsBlockedColumnToUserTable")]
+    partial class addIsBlockedColumnToUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,22 +184,6 @@ namespace MoveAndGo.Migrations
                         {
                             Type = "Running"
                         });
-                });
-
-            modelBuilder.Entity("MoveAndGo.Models.Subscription", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FollowerName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FollowingName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("MoveAndGo.Models.User", b =>

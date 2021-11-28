@@ -110,6 +110,13 @@ namespace MoveAndGo.Controllers
             //    return BadRequest(ModelState);
             //}
 
+            User user = await _manager.GetUserAsync(HttpContext.User);
+
+            if (user.IsBlocked)
+            {
+                return StatusCode(403, "You can\'t do this action, because you are blocked");
+            }
+
             string id = Guid.NewGuid().ToString();
             string fileName = id + ".mp4";
             string filePath = Path.Combine(_env.ContentRootPath, "ResourceFiles/Videos/" + fileName);
