@@ -64,7 +64,7 @@ const ProfilePage = () => {
             {
               localStorage.getItem('nickname') === nickname ?
                 <Link to='/edit' className='profile__person-info__nickname-edit'>Edit Profile</Link> :
-                null
+                <span className='profile__person-info__nickname-edit'>Follow</span>
             }
             {
               localStorage.getItem("nickname") === "admin" ?
