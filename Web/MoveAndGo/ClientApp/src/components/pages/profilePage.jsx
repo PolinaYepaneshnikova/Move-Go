@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import postRequest from "../../services/postRequest";
 
 import noAvatar from '../../img/profile-no-photo.png';
 
@@ -52,6 +53,22 @@ const ProfilePage = () => {
     );
   })
 
+  const blockUser = (nickname) => {
+    let ask = window.confirm('Are you sure you want to block the user?');
+    if (ask) {
+      let data = { nickname };
+      postRequest("/api/admin/blockuser", data)
+        .then(() => {
+          alert('The user has been successfully blocked!');
+          document.location.href = '/';
+        })
+        .catch(() => alert('An error has occurred!'));
+    }
+    else {
+      alert("User lock canceled!");
+    }
+  }
+
   return (
     <div className='profile'>
       <div className='profile__person'>
@@ -68,7 +85,9 @@ const ProfilePage = () => {
             }
             {
               localStorage.getItem("nickname") === "admin" ?
-                <span className='profile__person-info__nickname-edit'>Block</span> :
+                <span
+                  onClick={() => blockUser(data?.userName)}
+                  className='profile__person-info__nickname-edit'>Block</span> :
                 null
             }
           </div>

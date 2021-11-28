@@ -69,6 +69,22 @@ export default function CardWorkout() {
     }
   }
 
+  const blockUser = (nickname) => {
+    let ask = window.confirm('Are you sure you want to block the user?');
+    if (ask) {
+      let data = { nickname };
+      postRequest("/api/admin/blockuser", data)
+        .then(() => {
+          alert('The user has been successfully blocked!');
+          document.location.href = '/';
+        })
+        .catch(() => alert('An error has occurred!'));
+    }
+    else {
+      alert("User lock canceled!");
+    }
+  }
+
   const renderItem = (arr) => {
     const items = arr.map(item => {
       return (
@@ -88,7 +104,9 @@ export default function CardWorkout() {
                   <i
                     onClick={() => adminDeletePost(item.id)}
                     className="far fa-trash-alt card__btns-btn"></i>
-                  <i className="fas fa-user-lock card__btns-btn"></i>
+                  <i
+                    onClick={() => blockUser(item?.author)}
+                    className="fas fa-user-lock card__btns-btn"></i>
                 </>
             }
           </div>
