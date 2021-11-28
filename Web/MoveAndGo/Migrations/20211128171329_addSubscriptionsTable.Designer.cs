@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoveAndGo.Models;
 
 namespace MoveAndGo.Migrations
 {
     [DbContext(typeof(MoveAndGoDbContext))]
-    partial class MoveAndGoContextModelSnapshot : ModelSnapshot
+    [Migration("20211128171329_addSubscriptionsTable")]
+    partial class addSubscriptionsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,9 +229,6 @@ namespace MoveAndGo.Migrations
 
                     b.Property<string>("FullName")
                         .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsBlocked")
-                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
