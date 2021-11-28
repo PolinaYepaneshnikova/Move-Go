@@ -170,6 +170,11 @@ namespace MoveAndGo.Controllers
             IdentityResult result;
             User user = await _manager.GetUserAsync(HttpContext.User);
 
+            if (user.IsBlocked)
+            {
+                return StatusCode(403, "You can\'t do this action, because you are blocked");
+            }
+
             if (ModelState.IsValid)
             {
                 bool isPasswordRight = await _manager.CheckPasswordAsync(user, model.OldPassword);
