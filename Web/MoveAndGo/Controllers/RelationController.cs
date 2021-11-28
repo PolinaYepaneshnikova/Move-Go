@@ -47,18 +47,22 @@ namespace MoveAndGo.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> FollowUser([FromBody] FollowUserBody body)
         {
+            User currentUser = await _manager.FindByNameAsync(User.Identity.Name);
+            if (currentUser.IsBlocked)
+            {
+                return StatusCode(403, "You can\'t do this action, because you are blocked");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             
-            User user = await _manager.FindByNameAsync(body.nickname),
-                 currentUser = await _manager.FindByNameAsync(User.Identity.Name);
-
-            //if (user.IsBlocked)
-            //{
-            //    
-            //}
+            User user = await _manager.FindByNameAsync(body.nickname);
+            if (user.IsBlocked)
+            {
+                return StatusCode(403, "You can\'t do this action, this user is blocked");
+            }
 
             Subscription sub = new Subscription()
             {
