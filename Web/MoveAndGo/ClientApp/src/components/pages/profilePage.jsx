@@ -62,8 +62,13 @@ const ProfilePage = () => {
           <div className='profile__person-info__nickname'>
             <span className='profile__person-info__nickname-nick'>{data?.userName}</span>
             {
-              localStorage.getItem('nickname') == nickname ?
+              localStorage.getItem('nickname') === nickname ?
                 <Link to='/edit' className='profile__person-info__nickname-edit'>Edit Profile</Link> :
+                null
+            }
+            {
+              localStorage.getItem("nickname") === "admin" ?
+                <span className='profile__person-info__nickname-edit'>Block</span> :
                 null
             }
           </div>
