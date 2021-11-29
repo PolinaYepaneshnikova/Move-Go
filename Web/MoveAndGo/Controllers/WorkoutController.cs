@@ -86,7 +86,7 @@ namespace MoveAndGo.Controllers
                 Video = videoRoute + workout.Video,
                 workout.Text,
                 workout.TypeId,
-                Intensity = Workout.Intensities[(int)workout.Intensity],
+                Intensity = Workout.Intensities[workout.Intensity],
                 workout.Datetime,
             };
         }
