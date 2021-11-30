@@ -1,6 +1,6 @@
 ﻿namespace MoveAndGo.Models.ViewModels
 {
-    public class SearchWorkoutsViewModel
+    public class SearchViewModel
     {
         public string KeyWords { get; set; }
         public string Type { get; set; }

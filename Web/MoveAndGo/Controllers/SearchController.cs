@@ -33,10 +33,14 @@ namespace MoveAndGo.Controllers
             _context = context;
         }
 
-        // GET: api/Search/Workouts?Type=Workout
+        // GET: api/Search/Workouts?KeyWords=Шо Турникмен&Type=Workout&Level=Hard
+        /*let url = '/api/Search/Workouts';
+        let params = { keyWords : 'Шо Турникмен', type : 'Workout', level : 'Hard' };
+        
+        let resp = await fetch(url + '?' + new URLSearchParams(params));*/
         //await resp.json()
         [HttpGet]
-        public ActionResult<IEnumerable<Object>> Workouts([FromHeader] SearchWorkoutsViewModel model)
+        public ActionResult<IEnumerable<Workout>> Workouts([FromHeader] SearchViewModel model)
         {
             string keywordSearchTerm =
                 model.KeyWords != null && model.KeyWords != "" ?
@@ -48,7 +52,7 @@ namespace MoveAndGo.Controllers
 
 
             IEnumerable<Workout> workouts = _context.Workouts
-                .FromSqlRaw($"SELECT * FROM Workouts {keywordSearchTerm}")
+                .FromSqlRaw($"SELECT * FROM [Workouts] {keywordSearchTerm}")
                 .Where(e => model.Type != null && model.Type != "" ? e.TypeId == model.Type : true)
                 .Where(e => model.Level != null && model.Level != "" ?
                     e.Intensity == Workout.Intensities.IndexOf(model.Level)
@@ -56,6 +60,42 @@ namespace MoveAndGo.Controllers
                 ;
 
             return new ObjectResult(workouts);
+        }
+
+        // GET: api/Search/Users?KeyWords=Сергей
+        /*let url = '/api/Search/Users';
+        let params = { keyWords : 'Sergey' };
+        
+        let resp = await fetch(url + '?' + new URLSearchParams(params));*/
+        //await resp.json()
+        [HttpGet]
+        public ActionResult<IEnumerable<User>> Users([FromHeader] SearchViewModel model)
+        {
+            Console.WriteLine("model.KeyWords: " + model.KeyWords);
+
+            string keywordSearchTerm =
+                model.KeyWords != null && model.KeyWords != "" ?
+                    "WHERE " + String.Join(" AND ", model.KeyWords.Split(" ").Select(e =>
+                    "(    " +
+
+                    $"LOWER([UserName]) LIKE LOWER(\"%{e}%\")" +
+                    "    OR    " +
+                    $"LOWER([FullName]) LIKE LOWER(\"%{e}%\")" +
+                    "    OR    " +
+                    $"LOWER([Email]) LIKE LOWER(\"%{e}%\")" +
+                    "    OR    " +
+                    $"LOWER([PhoneNumber]) LIKE LOWER(\"%{e}%\")" +
+
+                    "    )"))
+                :
+                    ""
+            ;
+
+
+            IEnumerable<User> users = _context.Users
+                .FromSqlRaw($"SELECT * FROM [AspNetUsers] {keywordSearchTerm}");
+
+            return new ObjectResult(users);
         }
     }
 }
