@@ -33,6 +33,10 @@ namespace MoveAndGo.Controllers
             _context = context;
         }
 
+        private readonly string
+            avatarRoute = "/api/media/avatar/",
+            videoRoute = "/api/media/video/";
+
         // GET: api/Search/Workouts?KeyWords=Шо Турникмен&Type=Workout&Level=Hard
         /*let url = '/api/Search/Workouts';
         let params = { keyWords : 'Шо Турникмен', type : 'Workout', level : 'Hard' };
@@ -40,7 +44,7 @@ namespace MoveAndGo.Controllers
         let resp = await fetch(url + '?' + new URLSearchParams(params));*/
         //await resp.json()
         [HttpGet]
-        public ActionResult<IEnumerable<Workout>> Workouts([FromHeader] SearchViewModel model)
+        public ActionResult<IEnumerable<Object>> Workouts([FromHeader] SearchViewModel model)
         {
             string keywordSearchTerm =
                 model.KeyWords != null && model.KeyWords != "" ?
@@ -59,7 +63,25 @@ namespace MoveAndGo.Controllers
                     : true)
                 ;
 
-            return new ObjectResult(workouts);
+            IEnumerable<Object> workoutsResult = workouts.Select(async e =>
+            {
+                string avatar = (await _manager.FindByNameAsync(e.Author)).Avatar;
+
+                return new
+                {
+                    e.Id,
+                    e.Title,
+                    e.Author,
+                    AuthorAvatar = avatar == null ? null : avatarRoute + avatar,
+                    Video = videoRoute + e.Video,
+                    e.Text,
+                    e.TypeId,
+                    Intensity = Workout.Intensities[(int)e.Intensity],
+                    e.Datetime,
+                };
+            }).Select(e => e.Result);
+
+            return new ObjectResult(workoutsResult);
         }
 
         // GET: api/Search/Users?KeyWords=Сергей
@@ -94,6 +116,13 @@ namespace MoveAndGo.Controllers
 
             IEnumerable<User> users = _context.Users
                 .FromSqlRaw($"SELECT * FROM [AspNetUsers] {keywordSearchTerm}");
+
+            users = users.Select(u =>
+            {
+                u.Avatar = u.Avatar == null ? null : avatarRoute + u.Avatar;
+                u.PasswordHash = null;
+                return u;
+            });
 
             return new ObjectResult(users);
         }
