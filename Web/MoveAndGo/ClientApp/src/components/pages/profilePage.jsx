@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import postRequest from "../../services/postRequest";
 
+import { followUser, blockUser } from "../user/user";
 import noAvatar from '../../img/profile-no-photo.png';
 
 import getRequest from '../../services/getRequest';
@@ -53,22 +53,6 @@ const ProfilePage = () => {
     );
   })
 
-  const blockUser = (nickname) => {
-    let ask = window.confirm('Are you sure you want to block the user?');
-    if (ask) {
-      let data = { nickname };
-      postRequest("/api/admin/blockuser", data)
-        .then(() => {
-          alert('The user has been successfully blocked!');
-          document.location.href = '/';
-        })
-        .catch(() => alert('An error has occurred!'));
-    }
-    else {
-      alert("User lock canceled!");
-    }
-  }
-
   return (
     <div className='profile'>
       <div className='profile__person'>
@@ -81,13 +65,20 @@ const ProfilePage = () => {
             {
               localStorage.getItem('nickname') === nickname ?
                 <Link to='/edit' className='profile__person-info__nickname-edit'>Edit Profile</Link> :
-                <span className='profile__person-info__nickname-edit'>Follow</span>
+                <span
+                  onClick={() => followUser(data?.userName)}
+                  className='profile__person-info__nickname-edit'>Follow</span>
             }
             {
               localStorage.getItem("nickname") === "admin" ?
-                <span
-                  onClick={() => blockUser(data?.userName)}
-                  className='profile__person-info__nickname-edit'>Block</span> :
+                !data?.isBlocked ?
+                  <span
+                    onClick={() => blockUser(data?.userName)}
+                    className='profile__person-info__nickname-edit'>Block</span> :
+                  <span
+                    style={{ "color": "red" }}
+                    onClick={() => blockUser(data?.userName)}
+                    className='profile__person-info__nickname-edit'>Unblock</span> :
                 null
             }
           </div>
