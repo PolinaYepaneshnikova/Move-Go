@@ -1,42 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React  from 'react';
 import { Link } from 'react-router-dom';
 
 import { userComplaint, adminDeletePost, blockUser } from "./cardWorkoutFunc";
 import { ErrorMessage } from "../messages";
 import Skeleton from '../skeleton/skeleton';
-import getRequest from '../../services/getRequest';
 
 import noAvatar from '../../img/profile-no-photo.png';
 
-export default function CardWorkout() {
-  const [dataWorkout, setDataWorkout] = useState([]);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
+export default function CardWorkout({data}) {
+  // const [dataWorkout, setDataWorkout] = useState([]);
+  // const [error, setError] = useState(false);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    updateWorkout();
-  }, []);
-
-  const onLoadedData = (data) => {
-    setDataWorkout(data);
-    setLoading(false);
-  }
-
-  const onError = () => {
-    setError(true);
-    setLoading(false);
-  }
-
-  const onLoading = () => {
-    setLoading(true);
-  }
-
-  const updateWorkout = () => {
-    onLoading();
-    getRequest('/api/workout/get')
-      .then(onLoadedData)
-      .catch(onError);
-  }
+  // useEffect(() => {
+  //   updateWorkout();
+  // }, []);
+  //
+  // const onLoadedData = (data) => {
+  //   setDataWorkout(data);
+  //   setLoading(false);
+  // }
+  //
+  // const onError = () => {
+  //   setError(true);
+  //   setLoading(false);
+  // }
+  //
+  // const onLoading = () => {
+  //   setLoading(true);
+  // }
+  //
+  // const updateWorkout = () => {
+  //   onLoading();
+  //   getRequest('/api/workout/get')
+  //     .then(onLoadedData)
+  //     .catch(onError);
+  // }
 
   const renderItem = (arr) => {
     const items = arr.map(item => {
@@ -78,15 +77,11 @@ export default function CardWorkout() {
     return items;
   }
 
-  const items = renderItem(dataWorkout);
-  const errorMessage = error ? <ErrorMessage /> : null;
-  const loadingMessage = loading ? <Skeleton /> : null;
-  const content = !(loading || errorMessage) ? items : null;
+  const items = renderItem(data);
   return (
     <>
-      {errorMessage}
-      {loadingMessage}
-      {content}
+
+      {items}
     </>
   );
 }
