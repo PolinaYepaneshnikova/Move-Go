@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
 import getRequest from '../../services/getRequest';
 
-const FilterWorkout = ({updateData, }) => {
+const FilterWorkout = ({updateData}) => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
         updateData(data);
-    }, []);
+    }, [updateData, data]);
 
     const onSuccess = (data) => {
         setData(data);
@@ -23,6 +23,10 @@ const FilterWorkout = ({updateData, }) => {
     return (
         <form className="form" onSubmit={filterWorkout}>
             <h1 className="form-title">Filter</h1>
+            <div className="form-block">
+                <span className="form-label">Search</span>
+                <input type="text" name="keyWords" className="form-input"/>
+            </div>
             <div className="form-block">
                 <span className="form-label">Type</span>
                 <input type="text" name="type" className="form-input"/>

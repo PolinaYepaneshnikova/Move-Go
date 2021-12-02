@@ -1,24 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
+import CardWorkout from '../cardWorkout/cardWorkout';
 import FilterWorkout from '../filterWorkout/filterWorkout';
-import getRequest from '../../services/getRequest';
 
 import './appTabs.scss';
-
-import CardWorkout from '../cardWorkout/cardWorkout';
 
 const AppTabs = () => {
     const [active, setActive] = useState(1);
     const [data, setData] = useState([]);
 
-    useEffect(() => {
-        getRequest("/api/workout/get")
-            .then((data) => {
-                setData(data);
-            })
-    })
-
     const updateData = (data) => {
-        setData(data);
+        setData(data)
     }
 
     const tabItems = [
@@ -53,8 +44,8 @@ const AppTabs = () => {
                 className={className}
                 onClick={() => setActive(id)}
             >
-        {title}
-      </span>
+                {title}
+            </span>
         )
     });
 
