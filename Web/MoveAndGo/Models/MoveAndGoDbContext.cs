@@ -12,6 +12,8 @@ namespace MoveAndGo.Models
         public DbSet<Article> Articles { get; set; }
         public DbSet<PostType> PostTypes { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<FavoriteWorkout> FavoriteWorkouts { get; set; }
+        public DbSet<FavoriteArticle> FavoriteArticles { get; set; }
         public DbSet<AdminNotification> AdminNotifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
