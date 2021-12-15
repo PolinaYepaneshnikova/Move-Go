@@ -136,8 +136,6 @@ namespace MoveAndGo.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<User>> Users([FromHeader] SearchViewModel model)
         {
-            Console.WriteLine("model.KeyWords: " + model.KeyWords);
-
             string keywordSearchTerm =
                 model.KeyWords != null && model.KeyWords != "" ?
                     "WHERE " + String.Join(" AND ", model.KeyWords.Split(" ").Select(e =>

@@ -12,6 +12,7 @@ using MoveAndGo.Models.ViewModels;
 using System.IO;
 using System;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace MoveAndGo.Controllers
 {
@@ -63,6 +64,11 @@ namespace MoveAndGo.Controllers
             if (user.IsBlocked)
             {
                 return StatusCode(403, "You can\'t do this action, this user is blocked");
+            }
+
+            if (_context.Subscriptions.Where(e => e.FollowingName == body.nickname).FirstOrDefault() != null)
+            {
+                return Ok("You are alredy followed on this user");
             }
 
             Subscription sub = new Subscription()
