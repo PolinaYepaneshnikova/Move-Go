@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoveAndGo.Models;
 
 namespace MoveAndGo.Migrations
 {
     [DbContext(typeof(MoveAndGoDbContext))]
-    partial class MoveAndGoContextModelSnapshot : ModelSnapshot
+    [Migration("20211215150126_addArticleTable")]
+    partial class addArticleTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -15,5 +15,9 @@ namespace MoveAndGo.Models
         [JsonIgnore]
         [InverseProperty("Type")]
         public virtual ICollection<Workout> Workouts { get; set; }/* = new List<Workout>();*/
+
+        [JsonIgnore]
+        [InverseProperty("Type")]
+        public virtual ICollection<Article> Articles { get; set; }
     }
 }

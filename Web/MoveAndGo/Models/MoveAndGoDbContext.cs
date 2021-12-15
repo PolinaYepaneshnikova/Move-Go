@@ -9,6 +9,7 @@ namespace MoveAndGo.Models
 
 
         public DbSet<Workout> Workouts { get; set; }
+        public DbSet<Article> Articles { get; set; }
         public DbSet<PostType> PostTypes { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<AdminNotification> AdminNotifications { get; set; }
@@ -30,6 +31,14 @@ namespace MoveAndGo.Models
 
             builder.Entity<PostType>()
                 .HasMany(t => t.Workouts)
+                .WithOne(w => w.Type);
+
+            builder.Entity<Article>()
+                .HasOne(w => w.Type)
+                .WithMany(t => t.Articles);
+
+            builder.Entity<PostType>()
+                .HasMany(t => t.Articles)
                 .WithOne(w => w.Type);
         }
     }
