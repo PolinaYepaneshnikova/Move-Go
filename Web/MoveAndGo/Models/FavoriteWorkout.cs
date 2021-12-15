@@ -7,6 +7,6 @@ namespace MoveAndGo.Models
         [Key]
         public string Id { get; set; }
         public string FollowerName { get; set; }
-        public string FollowingName { get; set; }
+        public string FollowingId { get; set; }
     }
 }

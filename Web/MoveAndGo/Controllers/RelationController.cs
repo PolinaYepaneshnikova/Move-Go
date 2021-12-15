@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MoveAndGo.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class RelationController : Controller

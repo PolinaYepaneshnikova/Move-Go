@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoveAndGo.Models;
 
 namespace MoveAndGo.Migrations
 {
     [DbContext(typeof(MoveAndGoDbContext))]
-    partial class MoveAndGoContextModelSnapshot : ModelSnapshot
+    [Migration("20211215185349_renameColumn_FollowingName_To_FollowingId")]
+    partial class renameColumn_FollowingName_To_FollowingId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
