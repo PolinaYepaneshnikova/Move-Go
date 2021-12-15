@@ -206,5 +206,51 @@ namespace MoveAndGo.Controllers
             user.PasswordHash = null;
             return Ok(user);
         }
+
+        // POST: api/Admin/UnblockUser
+        /*let data = { nickname: "Ageris" }
+        let resp = await fetch("/api/admin/unblockuser", {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        } )*/
+        //await resp.json()
+        [HttpPost]
+        public async Task<ActionResult<User>> UnblockUser([FromBody] BlockUserBody body)
+        {
+            if (User.Identity.Name != "admin")
+            {
+                return StatusCode(403, "You are not admin");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            User user = await _manager.FindByNameAsync(body.nickname);
+
+            user.IsBlocked = false;
+
+            _context.Users.Update(user);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException exp)
+            {
+                if (_env.IsDevelopment())
+                {
+                    return StatusCode(500, exp);
+                }
+                else
+                {
+                    return StatusCode(500);
+                }
+            }
+
+            user.PasswordHash = null;
+            return Ok(user);
+        }
     }
 }

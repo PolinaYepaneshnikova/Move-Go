@@ -87,7 +87,7 @@ namespace MoveAndGo.Controllers
 
         // GET: api/Search/Articles?KeyWords=Шо могу&Type=Workout
         /*let url = '/api/Search/Articles';
-        let params = { keyWords : 'Шо Турникмен', type : 'Workout', level : 'Hard' };
+        let params = { keyWords : 'Шо могу', type : 'Workout', level : 'Hard' };
         
         let resp = await fetch(url + '?' + new URLSearchParams(params));*/
         //await resp.json()
