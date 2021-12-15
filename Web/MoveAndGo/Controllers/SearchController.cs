@@ -35,7 +35,8 @@ namespace MoveAndGo.Controllers
 
         private readonly string
             avatarRoute = "/api/media/avatar/",
-            videoRoute = "/api/media/video/";
+            videoRoute = "/api/media/video/",
+            imageRoute = "/api/media/image/";
 
         // GET: api/Search/Workouts?KeyWords=Шо Турникмен&Type=Workout&Level=Hard
         /*let url = '/api/Search/Workouts';
@@ -77,6 +78,48 @@ namespace MoveAndGo.Controllers
                     e.Text,
                     e.TypeId,
                     Intensity = Workout.Intensities[(int)e.Intensity],
+                    e.Datetime,
+                };
+            }).Select(e => e.Result);
+
+            return new ObjectResult(workoutsResult);
+        }
+
+        // GET: api/Search/Articles?KeyWords=Шо могу&Type=Workout
+        /*let url = '/api/Search/Articles';
+        let params = { keyWords : 'Шо Турникмен', type : 'Workout', level : 'Hard' };
+        
+        let resp = await fetch(url + '?' + new URLSearchParams(params));*/
+        //await resp.json()
+        [HttpGet]
+        public ActionResult<IEnumerable<Object>> Articles([FromHeader] SearchViewModel model)
+        {
+            string keywordSearchTerm =
+                model.KeyWords != null && model.KeyWords != "" ?
+                    "WHERE " + String.Join(" AND ", model.KeyWords.Split(" ").Select(e =>
+                    $"(    LOWER([Text]) LIKE LOWER(\"%{e}%\")    OR    LOWER([Title]) LIKE LOWER(\"%{e}%\")    )"))
+                :
+                    ""
+            ;
+
+
+            IEnumerable<Article> workouts = _context.Articles
+                .FromSqlRaw($"SELECT * FROM [Articles] {keywordSearchTerm}")
+                .Where(e => model.Type != null && model.Type != "" ? e.TypeId == model.Type : true);
+
+            IEnumerable<Object> workoutsResult = workouts.Select(async e =>
+            {
+                string avatar = (await _manager.FindByNameAsync(e.Author)).Avatar;
+
+                return new
+                {
+                    e.Id,
+                    e.Title,
+                    e.Author,
+                    AuthorAvatar = avatar == null ? null : avatarRoute + avatar,
+                    Image = imageRoute + e.Image,
+                    e.Text,
+                    e.TypeId,
                     e.Datetime,
                 };
             }).Select(e => e.Result);
