@@ -41,5 +41,17 @@ namespace MoveAndGo.Controllers
 
             return PhysicalFile(file_path, file_type, file_name);
         }
+
+        [HttpGet("{id}")]
+        public IActionResult Image(string id)
+        {
+            string file_path = Path.Combine(_env.ContentRootPath, "ResourceFiles/Images/" + id);
+
+            string file_type = "application/" + id.Substring(id.LastIndexOf(".") + 1);
+
+            string file_name = id;
+
+            return PhysicalFile(file_path, file_type, file_name);
+        }
     }
 }

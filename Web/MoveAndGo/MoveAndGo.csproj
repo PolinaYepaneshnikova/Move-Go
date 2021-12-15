@@ -36,6 +36,7 @@
   <ItemGroup>
     <Folder Include="AppData\" />
     <Folder Include="ResourceFiles\Avatars\" />
+    <Folder Include="ResourceFiles\Images\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
