@@ -60,7 +60,8 @@ namespace MoveAndGo.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (_context.FavoriteArticles.Where(e => e.FollowingId == body.Id).FirstOrDefault() != null)
+            if (_context.FavoriteArticles
+                .Where(e => e.FollowerName == currentUser.UserName && e.FollowingId == body.Id).FirstOrDefault() != null)
             {
                 return Ok("This article is alredy added to your favorites");
             }
@@ -117,7 +118,8 @@ namespace MoveAndGo.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (_context.FavoriteWorkouts.Where(e => e.FollowingId == body.Id).FirstOrDefault() != null)
+            if (_context.FavoriteWorkouts
+                .Where(e => e.FollowerName == currentUser.UserName && e.FollowingId == body.Id).FirstOrDefault() != null)
             {
                 return Ok("This workout is alredy added to your favorites");
             }
@@ -204,7 +206,8 @@ namespace MoveAndGo.Controllers
                 return BadRequest(ModelState);
             }
 
-            FavoriteArticle fav = _context.FavoriteArticles.Where(e => e.FollowingId == body.Id).FirstOrDefault();
+            FavoriteArticle fav = _context.FavoriteArticles
+                .Where(e => e.FollowerName == currentUser.UserName && e.FollowingId == body.Id).FirstOrDefault();
 
             _context.FavoriteArticles.Remove(fav);
 
@@ -249,7 +252,8 @@ namespace MoveAndGo.Controllers
                 return BadRequest(ModelState);
             }
 
-            FavoriteWorkout fav = _context.FavoriteWorkouts.Where(e => e.FollowingId == body.Id).FirstOrDefault();
+            FavoriteWorkout fav = _context.FavoriteWorkouts
+                .Where(e => e.FollowerName == currentUser.UserName && e.FollowingId == body.Id).FirstOrDefault();
 
             _context.FavoriteWorkouts.Remove(fav);
 
