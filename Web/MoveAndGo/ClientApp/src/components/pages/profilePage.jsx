@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import SavedCard from "../savedCard/savedCard";
+import CardWorkout from "../cardWorkout/cardWorkout";
 
 import { followUser, blockUser } from "../user/user";
 import noAvatar from '../../img/profile-no-photo.png';
@@ -11,8 +13,6 @@ const ProfilePage = () => {
   const [data, setData] = useState(null);
   const { nickname } = useParams();
 
-  useEffect(() => currentData(), [nickname]);
-
   const onSuccess = (data) => {
     setData(data);
   }
@@ -21,6 +21,10 @@ const ProfilePage = () => {
     getRequest(`/api/account/getuser/${nickname}`)
       .then(onSuccess)
   }
+
+  useEffect(() => {
+    currentData();
+  }, [nickname, currentData]);
 
   const tabItem = [
     {
@@ -31,7 +35,7 @@ const ProfilePage = () => {
     {
       id: 2,
       title: 'Saved',
-      content: 2
+      content: <SavedCard nickname={nickname} key={2} />
     }
   ];
 

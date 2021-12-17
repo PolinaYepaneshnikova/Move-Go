@@ -8,8 +8,10 @@ import RegistrationPage from "./registrationPage";
 import SingleCardWorkoutPage from "./singleCardWorkoutPage";
 import StartPage from "./startPage";
 import AddWorkoutPage from "./addWorkoutPage";
+import AddArticlePage from "./addArticlePage";
 
 export {
+  AddArticlePage,
   AddPage,
   ComplaintPage,
   EditPage,

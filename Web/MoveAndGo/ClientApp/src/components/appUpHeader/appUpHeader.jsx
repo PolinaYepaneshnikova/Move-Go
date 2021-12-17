@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {NavLink, Link} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import './appUpHeader.scss';
 import noAvatar from '../../img/profile-no-photo.png';
 import getRequest from '../../services/getRequest';
@@ -7,9 +7,6 @@ import getRequest from '../../services/getRequest';
 
 const AppUpHeader = () => {
     const [data, setData] = useState(null);
-    const [search, setSearch] = useState([]);
-
-    useEffect(() => avatarUser(), []);
 
     const onSuccess = (data) => {
         setData(data);
@@ -19,6 +16,8 @@ const AppUpHeader = () => {
         getRequest('/api/account/currentuser')
             .then(onSuccess)
     }
+
+    useEffect(() => avatarUser(), [avatarUser]);
 
     const exit = () => {
         getRequest('/api/account/logout')
@@ -43,7 +42,7 @@ const AppUpHeader = () => {
         <header className="appUpHeader">
             <Link to='/' className='appUpHeader-title'>{"Move&GO"}</Link>
             <form onSubmit={onsubmit} className="appUpHeader-form">
-                <input type='text' name="keyWords" className='appUpHeader-input' placeholder='Search user...'/>
+                <input type='text' name="keyWords" className='appUpHeader-input' placeholder='Search user...' />
                 <button className="appUpHeader-btn"><i className="fas fa-search"></i></button>
             </form>
             <div className='appUpHeader__menu'>
@@ -58,7 +57,7 @@ const AppUpHeader = () => {
                         null
                 }
                 <NavLink to={`/profile/${data?.userName}`} className='appUpHeader__menu-link'><img
-                    src={data?.avatar ?? noAvatar} alt="photo_user" className='appUpHeader__menu-photo'/></NavLink>
+                    src={data?.avatar ?? noAvatar} alt="photo_user" className='appUpHeader__menu-photo' /></NavLink>
                 <i onClick={() => exit()} className="fas fa-sign-out-alt appUpHeader__menu-link"></i>
             </div>
         </header>

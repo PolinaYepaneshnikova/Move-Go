@@ -5,6 +5,7 @@ import './app.scss';
 
 import AppUpHeader from '../appUpHeader/appUpHeader';
 import {
+  AddArticlePage,
   AddPage,
   ComplaintPage,
   EditPage,
@@ -37,6 +38,9 @@ const App = () => {
           </Route>
           <Route exact path='/addWorkout'>
             <AddWorkoutPage />
+          </Route>
+          <Route exact path='/addArticle'>
+            <AddArticlePage />
           </Route>
           <Route exact path='/edit'>
             <EditPage />

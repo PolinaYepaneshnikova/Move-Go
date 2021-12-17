@@ -5,7 +5,7 @@ const userComplaint = (id) => {
   let ask = window.confirm('Do you want to report this post?');
   if (ask) {
     let complaint = prompt('What is the reason for the complaint?', '');
-    let data = { itemLink: `/workout/${id}`, text: complaint };
+    let data = { itemLink: `/article/${id}`, text: complaint };
     postRequest("/api/admin/complain", data)
       .then(() => alert('Your complaint has been sent for consideration by the administration!'))
       .catch(() => alert('Sorry, there was an error submitting your complaint!'))
@@ -18,7 +18,7 @@ const userComplaint = (id) => {
 const adminDeletePost = (id) => {
   let ask = window.confirm('Are you sure you want to delete the post?');
   if (ask) {
-    let data = { link: `/workout/${id}` };
+    let data = { link: `/article/${id}` };
     deleteRequest("/api/admin/delete", data)
       .then(() => {
         alert('The post has been successfully deleted!');
@@ -49,12 +49,13 @@ const blockUser = (nickname) => {
 
 const favoriteCard = (id) => {
   let data = { id }
-  postRequest("/api/favorites/addworkout", data)
+  postRequest("/api/favorites/addarticle", data)
     .then(() => {
-      alert('The video has been successfully added to Favorites.!');
+      alert('The article has been successfully added to Favorites.!');
       document.location.href = '/';
     })
     .catch(() => alert('An error has occurred!'));
 }
+
 
 export { userComplaint, adminDeletePost, blockUser, favoriteCard };
