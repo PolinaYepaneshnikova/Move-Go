@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import SavedCard from "../savedCard/savedCard";
-import CardWorkout from "../cardWorkout/cardWorkout";
-
 import { followUser, blockUser } from "../user/user";
 import noAvatar from '../../img/profile-no-photo.png';
 
@@ -12,6 +10,13 @@ const ProfilePage = () => {
   const [active, setActive] = useState(1);
   const [data, setData] = useState(null);
   const { nickname } = useParams();
+  const [workout, setWorkout] = useState([]);
+  const [article, setArticle] = useState([]);
+
+  useEffect(() => {
+    getWorkoutsUser();
+    getArticlessUser();
+  }, [])
 
   const onSuccess = (data) => {
     setData(data);
@@ -22,6 +27,22 @@ const ProfilePage = () => {
       .then(onSuccess)
   }
 
+  const getWorkoutsUser = () => {
+    getRequest("/api/article/get")
+      .then(res => {
+        setArticle(res);
+        console.log(res);
+      })
+  }
+
+  const getArticlessUser = () => {
+    getRequest("/api/workout/get")
+      .then(res => {
+        setWorkout(res);
+        console.log(res);
+      })
+  }
+
   useEffect(() => {
     currentData();
   }, [nickname, currentData]);
@@ -30,7 +51,34 @@ const ProfilePage = () => {
     {
       id: 1,
       title: 'Posts',
-      content: 1
+      content: workout.length === 0 && article.length === 0 ?
+        <div key={1}>You have no posts.</div> :
+        <div key={1} style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "20px", padding: "30px 10px" }}>
+          {
+            workout.map(item => {
+              if (item?.author === nickname) {
+                return (
+                  <div className='card' key={item.id}>
+                    <video className='card-video' controls="controls" width='inherit' height='300px'>
+                      <source src={item?.video} type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+                    </video>
+                  </div>
+                )
+              }
+            })
+          }
+          {
+            article.map(item => {
+              if (item?.author === nickname) {
+                return (
+                  <div className='card' key={item.id}>
+                    <img src={item?.image} alt={item?.author} className='card-video' />
+                  </div>
+                )
+              }
+            })
+          }
+        </div>
     },
     {
       id: 2,
