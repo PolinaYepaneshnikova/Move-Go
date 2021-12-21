@@ -19,7 +19,7 @@ const AddArticlePage = () => {
   return (
     <div className="form-body">
       <form className="form" encType="multipart/form-data" accesskeymethod="Post" action="/api/article/post" method="post">
-        <h1 className="form-title">Workout</h1>
+        <h1 className="form-title">Article</h1>
         <div className="form-block">
           <span className="form-label">Title</span>
           <input
